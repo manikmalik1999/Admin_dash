@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -7,11 +7,16 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Axios from 'axios';
+import Cookies from "universal-cookie" ;
+import { Snackbar, IconButton } from "@material-ui/core" ;
+
 // import Title from '../../Title';
 
+const cookies = new Cookies() ;
 
 export default function FormDialog() {
   const [open, setOpen] = React.useState(false);
+  let token = cookies.get("Token") ;
   // let category;
   const handleClickOpen = () => {
     setOpen(true);
@@ -20,18 +25,43 @@ export default function FormDialog() {
   const handleClose = () => {
     setOpen(false);
   };
-
+  const [snackState,setSnackState] = useState({
+    showSnackbar : false ,
+    snackbarmsg : null
+  })
+  const snackbarClose = (event) => {
+    setSnackState({
+      showSnackbar : false 
+    })
+  }
   const postCategoryHandler = (event) => {
     // console.log(category.value);
-
     const category = event.target.category.value; 
     event.preventDefault();
     event.stopPropagation();
-    Axios.post('https://limitless-lowlands-36879.herokuapp.com/categories',category)
-    .then(response => {
-      console.log(response);
+    Axios.post("https://limitless-lowlands-36879.herokuapp.com/categories",{
+      category : category
+    },{
+      headers: {
+          "Authorization" :"Bearer " + token
+      }
     })
-    .catch(err => console.log(err));
+      .then(response => {
+        if( response.data.message === "Category Added" ){
+          setSnackState({
+            showSnackbar : true ,
+            snackbarmsg : "Category added"
+          })
+        } else {
+          setSnackState({
+            showSnackbar : true ,
+            snackbarmsg : "Category addition Failed"
+          })
+        }
+      })
+      .catch(err => {
+        console.log(err) ;
+      })
     // console.log(event.target.category.value);
 
     setOpen(false);
@@ -39,6 +69,20 @@ export default function FormDialog() {
 
   return (
     <div>
+      <Snackbar
+      anchorOrigin={{vertical:"bottom",horizontal:"left"}}
+      open={snackState.showSnackbar}
+      autoHideDuration={4000}
+      onClose={snackbarClose}
+      message={<span id="message-id">{snackState.snackbarmsg}</span>}
+      action={[
+        <IconButton
+        key="close"
+        aria-label="Close"
+        color="inherit"
+        onClick={snackbarClose}>x</IconButton>
+      ]}
+       />
       <Button variant="contained" color="primary" onClick={handleClickOpen}>
         Add Category
       </Button>

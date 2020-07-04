@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -6,7 +7,6 @@ import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-// import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
@@ -19,23 +19,30 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+
 import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
-import PendingProducts from "../PendingProducts/PendingProducts" ;
-import PendingProductDetail from "../PendingProducts/PendingProductDetail/PendingProductDetail" ; 
-import { Route } from "react-router-dom" ;
+import PendingProducts from "../PendingProducts/PendingProducts";
+import PendingProductDetail from "../PendingProducts/PendingProductDetail/PendingProductDetail";
+import { Route } from "react-router-dom";
 import Categories from './Categories/categories';
-// import Products from '../Products/Products';
 import AddCategory from './Categories/Add-Category/AddCategory';
+import Axios from 'axios';
+import Cookies from "universal-cookie";
+import { Redirect } from "react-router-dom";
+import { Snackbar, SnackbarContent } from "@material-ui/core";
+
+const cookies = new Cookies();
+
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography variant="body2" color="textSecondary" style={{ margin: "auto 24px" }}>
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="https://engagenreap.com/">
+        Enr
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -124,19 +131,106 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard() {
-  const classes = useStyles();
+const Dashboard = (props) => {
+  //states
+  const [loginSnack, setLoginSnack] = useState({
+    show: true
+  })
+  const [snack, setSnack] = useState({
+    show: false,
+    message: "",
+    color: "lightBlue"
+  })
   const [open, setOpen] = React.useState(true);
+  const [revenue, setRevenue] = useState({
+    revenue: null
+  })
+  const [orders, setOrders] = useState({
+    orders: null
+  })
+
+
+  //state Handlers
+  const snackbarClose = (event) => {
+    setSnack({
+      show: false
+    })
+  }
   const handleDrawerOpen = () => {
     setOpen(true);
   };
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+
+  //consts
+  const classes = useStyles();
+  const token = cookies.get("Token");
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+  //redirects nullified for now
+  let redirect = null;
+  if (!token && !(props.location.state && props.location.state.justLoggedIn) && false) {
+    redirect = <Redirect to={{
+      pathname: '/login',
+      state: { message: null }
+    }}
+    />;
+  }
+
+  //Snacks
+  if (loginSnack.show) {
+    setLoginSnack({
+      show: false
+    })
+    setSnack({
+      show: true,
+      message: "Logged In",
+      color: "Green"
+    })
+  }
+
+  //data from orders
+  useEffect(() => {
+    Axios.get("https://limitless-lowlands-36879.herokuapp.com/orders", {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+      .then(response => {
+        setRevenue({
+          revenue: response.data.revenue
+        })
+        setOrders({
+          orders: [...response.data.orders]
+        })
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }, []);
 
   return (
     <div className={classes.root}>
+      {redirect}
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        open={snack.show}
+        autoHideDuration={4000}
+        onClose={snackbarClose}
+        bodystyle={{ backgroundColor: 'teal', color: 'coral' }}
+        message={<span id="message-id">{snack.message}</span>}
+      >
+        <SnackbarContent style={{
+          backgroundColor: snack.color,
+        }}
+          action={[
+            <button key={"close"} onClick={snackbarClose} style={{ background: "none", border: "none", color: "white" }}>x</button>
+          ]}
+          message={<span id="client-snackbar">{snack.message}</span>}
+        />
+      </Snackbar>
       <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
@@ -153,10 +247,10 @@ export default function Dashboard() {
             Enr Consultancies
           </Typography>
           <Typography component="h1" align="right" display="inline" variant="h6" color="inherit" noWrap className={classes.title}>
-              {/* <Button variant="contained" color="primary">
+            {/* <Button variant="contained" color="primary">
                 Add Category
               </Button> */}
-          <AddCategory/>
+            <AddCategory />
           </Typography>
 
           <IconButton color="inherit">
@@ -180,13 +274,13 @@ export default function Dashboard() {
         </div>
         <Divider />
         <List>{mainListItems}</List>
-        <Divider/>
+        <Divider />
         <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          
+
           {/* main-dashboard */}
           <Route path="/dashboard" exact>
             <Grid container spacing={3}>
@@ -197,54 +291,56 @@ export default function Dashboard() {
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
                 <Paper className={fixedHeightPaper}>
-                  <Deposits />
+                  <Deposits revenue={revenue.revenue} />
                 </Paper>
               </Grid>
               <Grid item xs={12}>
                 <Paper className={classes.paper}>
-                  <Orders />
+                  <Orders orders={orders.orders} />
                 </Paper>
               </Grid>
-          <Grid container spacing={3}>
-            <Box pt={4}>
-              <Copyright />
-            </Box>
-            </Grid>
+              <Grid container spacing={3}>
+                <Box pt={4}>
+                  <Copyright />
+                </Box>
+              </Grid>
             </Grid>
           </Route>
-            {/* pending-products */}
-            <Route path="/dashboard/pending-products" exact>
-              <Grid item xs={12}>
-                <Paper className={classes.paper}>
-                  <PendingProducts />
-                </Paper>
-              </Grid>
-            </Route>
+          {/* pending-products */}
+          <Route path="/dashboard/pending-products" exact>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <PendingProducts />
+              </Paper>
+            </Grid>
+          </Route>
 
-            {/* Pending Product Details */}
-            <Route path="/dashboard/pending-product/:id" exact component={PendingProductDetail}>
-            </Route>
+          {/* Pending Product Details */}
+          <Route path="/dashboard/pending-product/:id" exact component={PendingProductDetail}>
+          </Route>
 
-            {/* categories section */}
-            <Route path="/dashboard/categories" exact>
-              <Grid item xs={12}>
-                <Paper className={classes.paper}>
-                  <Categories />
-                </Paper>
-              </Grid>
-            </Route>
+          {/* categories section */}
+          <Route path="/dashboard/categories" exact>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Categories />
+              </Paper>
+            </Grid>
+          </Route>
 
-            {/* Add category section */}
-            <Route path="/dashboard/add-categories" exact>
-              <Grid item xs={12}>
-                <Paper className={classes.paper}>
-                  {/* <AddCategory /> */}
-                </Paper>
-              </Grid>
-            </Route>
+          {/* Add category section */}
+          <Route path="/dashboard/add-categories" exact>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                {/* <AddCategory /> */}
+              </Paper>
+            </Grid>
+          </Route>
 
         </Container>
       </main>
     </div>
   );
 }
+
+export default Dashboard;
