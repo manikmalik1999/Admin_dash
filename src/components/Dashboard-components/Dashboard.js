@@ -29,6 +29,7 @@ import { Route } from "react-router-dom" ;
 import Categories from './Categories/categories';
 // import Products from '../Products/Products';
 import AddCategory from './Categories/Add-Category/AddCategory';
+import Reviews from './Reviews/Reviews';
 
 function Copyright() {
   return (
@@ -235,10 +236,10 @@ export default function Dashboard() {
             </Route>
 
             {/* Add category section */}
-            <Route path="/dashboard/add-categories" exact>
+            <Route path="/dashboard/reported-reviews" exact>
               <Grid item xs={12}>
                 <Paper className={classes.paper}>
-                  {/* <AddCategory /> */}
+                  <Reviews />
                 </Paper>
               </Grid>
             </Route>

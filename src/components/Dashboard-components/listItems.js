@@ -36,7 +36,7 @@ export const mainListItems = (
       <ListItemText primary="Categories" />
     </ListItem>
     </Link>
-    <Link to="/dashboard/add-category">
+    <Link to="/dashboard/reported-reviews">
     <ListItem button>
       <ListItemIcon>
         <BarChartIcon />
