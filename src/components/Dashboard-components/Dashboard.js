@@ -4,6 +4,8 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
+import Tooltip from '@material-ui/core/Tooltip';
+import Zoom from '@material-ui/core/Zoom';
 import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -19,6 +21,8 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
 
 import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './Chart';
@@ -41,7 +45,7 @@ const cookies = new Cookies();
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" style={{ margin: "auto 24px" }}>
+    <Typography variant="body2" color="textSecondary" style={{ margin: "auto 24px",position:"absolute",right:"12px",bottom:"6px" }}>
       {'Copyright © '}
       <Link color="inherit" href="https://engagenreap.com/">
         Enr
@@ -96,6 +100,8 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     whiteSpace: 'nowrap',
     width: drawerWidth,
+    backgroundSize : "cover",
+    background: 'linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.7)) , url("https://wallpaperaccess.com/full/256531.jpg") no-repeat center center' ,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -123,6 +129,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(4),
   },
   paper: {
+    boxShadow : "2px 3px 8px lightgrey",
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
@@ -150,6 +157,12 @@ const Dashboard = (props) => {
   const [orders, setOrders] = useState({
     orders: null
   })
+  const [redirect,setRedirect] = useState({
+    to : null 
+  })
+  const [http,setHttp] = useState({
+    set : false
+  })
 
 
   //state Handlers
@@ -172,14 +185,14 @@ const Dashboard = (props) => {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   //redirects nullified for now
-  let redirect = null;
-  if (!token && !(props.location.state && props.location.state.justLoggedIn) && false) {
-    redirect = <Redirect to={{
-      pathname: '/login',
-      state: { message: null }
-    }}
-    />;
-  }
+  // let redirect = null;
+  // if (!token && !(props.location.state && props.location.state.justLoggedIn) && false) {
+  //   redirect = <Redirect to={{
+  //     pathname: '/login',
+  //     state: { message: null }
+  //   }}
+  //   />;
+  // }
 
   //Snacks
   if (loginSnack.show) {
@@ -192,6 +205,18 @@ const Dashboard = (props) => {
       color: "Green"
     })
   }
+  //logout handler
+  const logoutHandler = () => {
+    console.log("logout") ;
+    cookies.remove('Token', { path: '/' });
+    setRedirect({
+      to : <Redirect to="/login" />
+    })
+    setLoginSnack({
+      show:true
+    })
+  }
+
 
   //data from orders
   useEffect(() => {
@@ -205,17 +230,20 @@ const Dashboard = (props) => {
           revenue: response.data.revenue
         })
         setOrders({
-          orders: [...response.data.orders]
+          orders: response.data.orders
+        })
+        setHttp({
+          set : true
         })
       })
       .catch(err => {
         console.log(err);
       })
-  }, []);
+  },[http.set]);
 
   return (
-    <div className={classes.root}>
-      {redirect}
+    <div className={classes.root} >
+      {redirect.to}
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         open={snack.show}
@@ -234,11 +262,12 @@ const Dashboard = (props) => {
         />
       </Snackbar>
       <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)} style={{ background: '#2E3B55' }}>
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
             color="inherit"
+            style={{color:"white"}}
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
@@ -260,6 +289,11 @@ const Dashboard = (props) => {
               <NotificationsIcon />
             </Badge>
           </IconButton>
+          <Tooltip title="Logout" TransitionComponent={Zoom} >
+            <IconButton  onClick={logoutHandler}>
+              <ExitToAppIcon style={{color:"white"}} />
+            </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -271,13 +305,12 @@ const Dashboard = (props) => {
       >
         <div className={classes.toolbarIcon}>
           <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
+            <ChevronLeftIcon style={{color:"white",outline:"none"}} />
           </IconButton>
         </div>
-        <Divider />
         <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
+        <Divider style={{background:"lightgrey"}}  />
+        <List onClick={logoutHandler}>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -288,7 +321,7 @@ const Dashboard = (props) => {
             <Grid container spacing={3}>
               <Grid item xs={12} md={8} lg={9}>
                 <Paper className={fixedHeightPaper}>
-                  <Chart />
+                  <Chart orders={orders.orders} />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
@@ -309,17 +342,10 @@ const Dashboard = (props) => {
             </Grid>
           </Route>
           {/* pending-products */}
-          <Route path="/dashboard/pending-products" exact>
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <PendingProducts />
-              </Paper>
-            </Grid>
-          </Route>
+          <Route path="/dashboard/pending-products" exact component={PendingProducts} />
 
           {/* Pending Product Details */}
-          <Route path="/dashboard/pending-product/:id" exact component={PendingProductDetail}>
-          </Route>
+          <Route path="/dashboard/pending-product/:id" exact component={PendingProductDetail} />
 
           {/* categories section */}
           <Route path="/dashboard/categories" exact>

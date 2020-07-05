@@ -8,7 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Axios from 'axios';
 import Cookies from "universal-cookie" ;
-import { Snackbar, IconButton } from "@material-ui/core" ;
+import { Snackbar, SnackbarContent, IconButton } from "@material-ui/core";
 
 // import Title from '../../Title';
 
@@ -25,13 +25,17 @@ export default function FormDialog() {
   const handleClose = () => {
     setOpen(false);
   };
-  const [snackState,setSnackState] = useState({
-    showSnackbar : false ,
-    snackbarmsg : null
+  const [snack, setSnack] = useState({
+    show: false,
+    message: "",
+    color: "lightBlue"
   })
+
+  //snackHandler
   const snackbarClose = (event) => {
-    setSnackState({
-      showSnackbar : false 
+    setSnack({
+      show: false,
+      message: ""
     })
   }
   const postCategoryHandler = (event) => {
@@ -39,50 +43,63 @@ export default function FormDialog() {
     const category = event.target.category.value; 
     event.preventDefault();
     event.stopPropagation();
-    Axios.post("https://limitless-lowlands-36879.herokuapp.com/categories",{
-      category : category
-    },{
-      headers: {
-          "Authorization" :"Bearer " + token
-      }
-    })
-      .then(response => {
-        if( response.data.message === "Category Added" ){
-          setSnackState({
-            showSnackbar : true ,
-            snackbarmsg : "Category added"
-          })
-        } else {
-          setSnackState({
-            showSnackbar : true ,
-            snackbarmsg : "Category addition Failed"
-          })
+    if( category === "" ){
+      setSnack({
+        show : true ,
+        message : "Enter Category Name First",
+        color: "red"
+      })
+    } else {
+      Axios.post("https://limitless-lowlands-36879.herokuapp.com/categories",{
+        category : category
+      },{
+        headers: {
+            "Authorization" :"Bearer " + token
         }
       })
-      .catch(err => {
-        console.log(err) ;
-      })
-    // console.log(event.target.category.value);
-
+        .then(response => {
+          if( response.data.message === "Category Added" ){
+            setSnack({
+              show : true ,
+              message : "Category added",
+              color : "green"
+            })
+          } else {
+            setSnack({
+              show : true ,
+              message : "Category addition Failed",
+              color: "red"
+            })
+          }
+          window.location.reload(false);
+        })
+        .catch(err => {
+          console.log(err) ;
+        })
+    }
     setOpen(false);
   };
 
   return (
     <div>
       <Snackbar
-      anchorOrigin={{vertical:"bottom",horizontal:"left"}}
-      open={snackState.showSnackbar}
-      autoHideDuration={4000}
-      onClose={snackbarClose}
-      message={<span id="message-id">{snackState.snackbarmsg}</span>}
-      action={[
-        <IconButton
-        key="close"
-        aria-label="Close"
-        color="inherit"
-        onClick={snackbarClose}>x</IconButton>
-      ]}
-       />
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        open={snack.show}
+        autoHideDuration={4000}
+        onClose={snackbarClose}
+        bodystyle={{ backgroundColor: 'teal', color: 'coral' }}
+        message={<span id="message-id">{snack.message}</span>}
+
+      >
+        <SnackbarContent style={{
+          backgroundColor: snack.color,
+        }}
+          action={[
+            <button key={"close"} onClick={snackbarClose} style={{ background: "none", border: "none", color: "white" }}>x</button>
+          ]}
+          message={<span id="client-snackbar">{snack.message}</span>}
+        />
+      </Snackbar>
       <Button variant="contained" color="primary" onClick={handleClickOpen}>
         Add Category
       </Button>
@@ -107,7 +124,7 @@ export default function FormDialog() {
             Cancel
           </Button>
           <Button onClick={handleClose} type="submit" color="primary">
-            Save Changes
+            Add
           </Button>
         </DialogActions>
         </form>
