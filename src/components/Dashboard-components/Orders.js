@@ -20,7 +20,15 @@ const rows = [
   // createData(3, '16 Mar, 2019', 'Michael Jackson', 'Gary, IN', 'AMEX ⠀•••• 2000', 654.39),
   // createData(4, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', 212.79),
 ];
-
+function setDate(date){
+  let year = date.slice(0,4);
+  let month = date.slice(5,7) ;
+  let _date = date.slice(8,10) ;
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  return ( parseInt(_date) + " " + monthNames[parseInt(month)-1].slice(0,3)  + " , " + year ) ;
+}
 function preventDefault(event) {
   event.preventDefault();
 }
@@ -32,6 +40,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Orders(props) {
+  console.log(props.orders) ;
+
   const classes = useStyles();
   const [orders, setOrders] = useState({
     orders: "Loading..."
@@ -42,20 +52,19 @@ export default function Orders(props) {
         orders: props.orders
       })
     }
-  })
+  },[props.orders])
   let data = rows ;
-  if( orders.orders != "Loading..." ){
+  if( orders.orders !== "Loading..." ){
     data = orders.orders.map((order,index) => {
-      return createData(index,'16 Mar, 2019',order.product.name,order.userId,order.quantity,order.product.price)
+      return createData(index,setDate(order.date.split("T")[0]),order.product.name,order.userId,order.quantity,order.product.price)
     })
   }
-  console.log(data); 
   return (
     <React.Fragment>
       <Title>Recent Orders</Title>
       <Table size="small">
         <TableHead>
-          <TableRow>
+          <TableRow style={{textAlign:"center"}}>
             <TableCell>Date</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Customer Id</TableCell>

@@ -10,7 +10,8 @@ import { Redirect } from "react-router-dom" ;
 class PendingProductDetail extends Component {
     state = {
         product : {},
-        redirectToPendingProducts : false
+        redirectToPendingProducts : false,
+        value : null
     }
 
     componentDidMount(){
@@ -30,8 +31,7 @@ class PendingProductDetail extends Component {
     acceptHandler = () => {
         axios.get("https://limitless-lowlands-36879.herokuapp.com/admin/approve/true/" + this.state.product._id )
             .then(res => {
-                alert("product approved") ;
-                this.setState({redirectToPendingProducts : true}) ;
+                this.setState({redirectToPendingProducts : true,value : true}) ;
             })
             .catch( err => {
                 console.log(err) ;
@@ -40,8 +40,7 @@ class PendingProductDetail extends Component {
     denyHandler = () => {
         axios.get("https://limitless-lowlands-36879.herokuapp.com/admin/approve/false/" + this.state.product._id )
             .then(res => {
-                alert("product denied") ;
-                this.setState({redirectToPendingProducts : true}) ;
+                this.setState({redirectToPendingProducts : true,value: false}) ;
             })
             .catch( err => {
                 console.log(err) ;
@@ -50,7 +49,10 @@ class PendingProductDetail extends Component {
     render(){
         let redir = null ;
         if( this.state.redirectToPendingProducts ){
-            redir = <Redirect to="/dashboard/pending-products" /> ;
+            redir = <Redirect to={{
+                pathname: "/dashboard/pending-products",
+                state: { value: this.state.value }
+            }}/>
         }
         return(
             <Aux>
