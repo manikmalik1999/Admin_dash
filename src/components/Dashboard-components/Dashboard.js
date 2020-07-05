@@ -34,6 +34,7 @@ import Axios from 'axios';
 import Cookies from "universal-cookie";
 import { Redirect } from "react-router-dom";
 import { Snackbar, SnackbarContent } from "@material-ui/core";
+import IndividualProdReview from '../Dashboard-components/Reviews/IndividualProdReview/IndividualProdReview';
 
 const cookies = new Cookies();
 
@@ -329,14 +330,18 @@ const Dashboard = (props) => {
             </Grid>
           </Route>
 
-            {/* Add category section */}
-            <Route path="/dashboard/reported-reviews" exact>
+            {/* Reviews section */}
+            <Route path="/dashboard/reviews" exact>
               <Grid item xs={12}>
                 <Paper className={classes.paper}>
                   <Reviews />
                 </Paper>
               </Grid>
             </Route>
+
+            {/* Pending Product Details */}
+          <Route path="/dashboard/reviews/:id" exact component={IndividualProdReview}>
+          </Route>
 
         </Container>
       </main>

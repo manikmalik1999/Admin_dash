@@ -40,12 +40,12 @@ export const mainListItems = (
         <ListItemText primary="Categories" />
       </ListItem>
     </Link>
-    <Link to="/dashboard/reported-reviews">
+    <Link to="/dashboard/reviews">
     <ListItem button>
       <ListItemIcon>
         <BarChartIcon />
       </ListItemIcon>
-      <ListItemText primary="Reported-reviews" />
+      <ListItemText primary="Reviews" />
     </ListItem>
     </Link>
     <ListItem button>
