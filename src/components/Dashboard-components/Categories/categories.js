@@ -2,6 +2,8 @@ import React,{ Component } from 'react';
 import Axios from 'axios';
 import Aux from '../../../hoc/Auxilliary';
 import Category from './Category/Category';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 
 class Categories extends Component {
 
@@ -13,19 +15,20 @@ class Categories extends Component {
         Axios.get('https://limitless-lowlands-36879.herokuapp.com/categories')
         .then(response => {
             this.setState({categories : response.data.categories});
-            console.log(response);
         })
         .catch(err => console.log(err));
     }
 
     render(){
         const categories = this.state.categories.map(category => {
-            return <Category key={category._id} category={category.category}/>;
+            return <Grid item xs key={category._id}><Category  category={category.category}/></Grid> ;
         });
 
         return (
         <Aux>
-            {categories}
+            <Grid container spacing={3} style={{textAlign: "center"}}>
+                {categories}
+            </Grid>
         </Aux>
         );
     }

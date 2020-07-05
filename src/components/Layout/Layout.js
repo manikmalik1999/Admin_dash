@@ -1,13 +1,20 @@
 import React from 'react';
-import { Route } from "react-router-dom" ;
+import { Route, Switch, Redirect } from "react-router-dom" ;
 import Aux from '../../hoc/Auxilliary';
 import Dashboard from '../Dashboard-components/Dashboard';
 import LoginSide from "../LoginSide/LoginSide" ;
 
 const layout = (props) => (
     <Aux>
-        <Route path="/login" exact><LoginSide /></Route>
-        <Route path="/dashboard"><Dashboard /></Route>
+        <Switch>
+            <Route path="/login" exact component={LoginSide}></Route>
+            <Route path="/dashboard"  component={Dashboard}></Route>
+            <Redirect from="/" to={{
+                pathname: '/login',
+                state: { message : null }
+                }}
+            />
+        </Switch>
     </Aux>
 );
 
