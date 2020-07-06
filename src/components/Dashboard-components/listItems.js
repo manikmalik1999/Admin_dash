@@ -50,44 +50,36 @@ export const mainListItems = (
       </ListItem>
     </Link>
     <Link to="/dashboard/reviews">
-      <ListItem button>
-        <ListItemIcon>
-          <BarChartIcon />
-        </ListItemIcon>
-        <ListItemText primary="Reviews" />
-      </ListItem>
-      </Link>
-      {/* <Link to="/dashboard/add-category">
       <ListItem style={{ color: "white", fontWeight: "bold" }} button>
-        <Tooltip title="add-category" placement="right-start">
+        <Tooltip title="reviw=ews" placement="right-start">
           <ListItemIcon>
             <PeopleIcon style={{ color: "white" }} />
           </ListItemIcon>
         </Tooltip>
-        <ListItemText primary="Reported-reviews" />
+        <ListItemText primary="Reviews" />
       </ListItem>
-    </Link> */}
-      <ListItem style={{ color: "white", fontWeight: "bold" }} button>
+    </Link>
+    {/* <ListItem style={{ color: "white", fontWeight: "bold" }} button>
         <Tooltip title="integrations" placement="right-start">
           <ListItemIcon>
             <LayersIcon style={{ color: "white" }} />
           </ListItemIcon>
         </Tooltip>
         <ListItemText primary="Integrations" />
-      </ListItem>
-    </div>
+      </ListItem> */}
+  </div>
 
 );
 
 export const secondaryListItems = (
-    <div>
-      <ListItem style={{ color: "white", fontWeight: "bold" }} button >
-        <Tooltip title="Logout" placement="right-start">
-          <ListItemIcon>
-            <ExitToAppIcon style={{ color: "white" }} />
-          </ListItemIcon>
-        </Tooltip>
-        <ListItemText primary="Logout" />
-      </ListItem>
-    </div>
-  )
+  <div>
+    <ListItem style={{ color: "white", fontWeight: "bold" }} button >
+      <Tooltip title="Logout" placement="right-start">
+        <ListItemIcon>
+          <ExitToAppIcon style={{ color: "white" }} />
+        </ListItemIcon>
+      </Tooltip>
+      <ListItemText primary="Logout" />
+    </ListItem>
+  </div>
+)

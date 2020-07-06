@@ -14,14 +14,13 @@ function createData(time, amount) {
 const rows = [
 
   createData('00:00', 0),
-  // createData('03:00', 300),
-  // createData('06:00', 600),
-  // createData('09:00', 800),
-  // createData('12:00', 1500),
-  // createData('15:00', 2000),
-  // createData('18:00', 2400),
-  // createData('21:00', 2400),
-  // createData('16 June', 350),
+  createData('03:00', 300),
+  createData('06:00', 600),
+  createData('09:00', 800),
+  createData('12:00', 1500),
+  createData('15:00', 2000),
+  createData('18:00', 2400),
+  createData('21:00', 2400),
 ];
 
 function setDate(date){
@@ -51,17 +50,17 @@ export default function Chart(props) {
   },[props.orders]) ;
   let data = rows ;
   if( orders.orders !== "Loading..." ){
-    data = []
-    console.log(orders.orders) ;
-    for(let i=0;i<orders.orders.length;i = i+1){
-      if( !data[orders.orders[i]] ){
-        let val = createData( setDate(orders.orders[i].date.split("T")[0]),orders.orders[i].product.price ) ;
-        data.push({ val })
-      } else {
-        data[orders.orders[i].amount] = data[orders.orders[i].amount] + orders.orders[i].product.price ;
-      }
-    }
-    console.log(data) ;
+    // data = []
+    // console.log(orders.orders) ;
+    // for(let i=0;i<orders.orders.length;i = i+1){
+    //   if( !data[orders.orders[i]] ){
+    //     let val = createData( setDate(orders.orders[i].date.split("T")[0]),orders.orders[i].product.price ) ;
+    //     data.push({ val })
+    //   } else {
+    //     data[orders.orders[i].amount] = data[orders.orders[i].amount] + orders.orders[i].product.price ;
+    //   }
+    // }
+    // console.log(data) ;
     // data = orders.orders.map((order,index) => {
     //   return createData(setDate(order.date.split("T")[0]),order.product.price)
     // })

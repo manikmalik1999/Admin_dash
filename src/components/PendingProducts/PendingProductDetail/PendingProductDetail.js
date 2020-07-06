@@ -18,9 +18,9 @@ class PendingProductDetail extends Component {
         console.log("indidef : " + this.props.id);
         console.log(this.props) ;
         if(this.props.match.params.id){
-            axios.get('https://limitless-lowlands-36879.herokuapp.com/products/' + this.props.match.params.id)
+            axios.get('https://limitless-lowlands-36879.herokuapp.com/admin/approve/true/' + this.props.match.params.id)
             .then(response => {
-                console.log(response.data.product) ;
+                console.log(response) ;
                 this.setState({product : response.data.product});
             })
             .catch(err => {
