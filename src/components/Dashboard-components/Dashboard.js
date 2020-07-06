@@ -151,9 +151,6 @@ const Dashboard = (props) => {
     color: "lightBlue"
   })
   const [open, setOpen] = React.useState(true);
-  const [revenue, setRevenue] = useState({
-    revenue: null
-  })
   const [orders, setOrders] = useState({
     orders: null
   })
@@ -226,9 +223,6 @@ const Dashboard = (props) => {
       }
     })
       .then(response => {
-        setRevenue({
-          revenue: response.data.revenue
-        })
         setOrders({
           orders: response.data.orders
         })
@@ -326,7 +320,7 @@ const Dashboard = (props) => {
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
                 <Paper className={fixedHeightPaper}>
-                  <Deposits revenue={revenue.revenue} />
+                  <Deposits orders={orders.orders} />
                 </Paper>
               </Grid>
               <Grid item xs={12}>

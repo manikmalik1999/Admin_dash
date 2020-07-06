@@ -6,6 +6,9 @@ import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { Redirect } from "react-router-dom" ;
+import Cookies from "universal-cookie" ;
+
+const cookies = new Cookies() ;
 
 class PendingProductDetail extends Component {
     state = {
@@ -15,12 +18,10 @@ class PendingProductDetail extends Component {
     }
 
     componentDidMount(){
-        console.log("indidef : " + this.props.id);
-        console.log(this.props) ;
         if(this.props.match.params.id){
-            axios.get('https://limitless-lowlands-36879.herokuapp.com/admin/approve/true/' + this.props.match.params.id)
+            axios.get('https://limitless-lowlands-36879.herokuapp.com/products/' + this.props.match.params.id)
             .then(response => {
-                console.log(response) ;
+                // console.log(response) ;
                 this.setState({product : response.data.product});
             })
             .catch(err => {
@@ -29,8 +30,15 @@ class PendingProductDetail extends Component {
         };
     };
     acceptHandler = () => {
-        axios.get("https://limitless-lowlands-36879.herokuapp.com/admin/approve/true/" + this.state.product._id )
+        let token = cookies.get("Token") ;
+        axios.get("https://limitless-lowlands-36879.herokuapp.com/admin/approve/true/" + this.state.product._id,{
+            headers : {
+                "Authorization" : "Bearer " + token  
+            }
+        } )
             .then(res => {
+                // console.log("true") ;
+                // console.log(res) ;
                 this.setState({redirectToPendingProducts : true,value : true}) ;
             })
             .catch( err => {
@@ -38,8 +46,15 @@ class PendingProductDetail extends Component {
             } )
     }
     denyHandler = () => {
-        axios.get("https://limitless-lowlands-36879.herokuapp.com/admin/approve/false/" + this.state.product._id )
+        let token = cookies.get("Token") ;
+        axios.get("https://limitless-lowlands-36879.herokuapp.com/admin/approve/false/" + this.state.product._id,{
+            headers : {
+                "Authorization" : "Bearer " + token  
+            }
+        } )
             .then(res => {
+                // console.log("false") ;
+                // console.log(res) ;
                 this.setState({redirectToPendingProducts : true,value: false}) ;
             })
             .catch( err => {

@@ -39,6 +39,7 @@ class PendingProducts extends Component {
         axios
             .get('https://limitless-lowlands-36879.herokuapp.com/products')
             .then(response => {
+                console.log(response) ; 
                 this.setState({
                     products: response.data.products,
                     snack: {
@@ -60,7 +61,7 @@ class PendingProducts extends Component {
     render() {
         //snackHandler
         
-        console.log(this.props);
+        // console.log(this.props);
         let products = null;
         if (!this.state.individualProductId) {
             products = this.state.products.map(product => {

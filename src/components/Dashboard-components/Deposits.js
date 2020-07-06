@@ -18,19 +18,46 @@ const useStyles = makeStyles({
   },
 });
 
+const getLastDates = (back) => {
+  let date = new Date();
+  date.setDate(date.getDate() - back);
+  let yyyy = date.getFullYear();
+  let mm = (date.getMonth() + 1);
+  if (mm <= 9)
+    mm = "0" + mm;
+  let dd = date.getDate();
+  if (dd <= 9)
+    dd = "0" + dd;
+
+  let finalDate = yyyy + "-" + mm + '-' + dd;
+  return finalDate;
+}
 
 export default function Deposits(props) {
   const classes = useStyles();
-  const [deposit, setDeposit] = useState({
-    revenue: "Loading..."
+  const [orders, setOrders] = useState({
+    orders: "Loading..."
   })
+  // console.log(lastDates) ;
   useEffect(() => {
-    if (props.revenue && deposit.revenue === "Loading...") {
-      setDeposit({
-        revenue: props.revenue
+    if (props.orders && orders.orders === "Loading...") {
+      setOrders({
+        orders: props.orders
       })
     }
-  })
+  }, [props.orders])
+  let total = "Loading..." ;
+  if (orders.orders !== "Loading...") {
+    total = 0 ;
+
+    // let total = 0 ;
+    let today = getLastDates(0) ;
+    for (let i = 0; i < orders.orders.length; ++i) {
+      if (orders.orders[i].date.split("T")[0] === today) {
+        total += orders.orders[i].product.price * orders.orders[i].quantity ; 
+      }
+    }
+  }
   let tempDate = new Date();
   const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
@@ -41,7 +68,7 @@ export default function Deposits(props) {
     <React.Fragment>
       <Title>Recent Revenue Annual</Title>
       <Typography component="p" variant="h4">
-        {deposit.revenue}
+        {total}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
         updated on {date}
