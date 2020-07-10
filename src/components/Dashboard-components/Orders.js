@@ -59,7 +59,7 @@ export default function Orders(props) {
   let data = rows;
   if (orders.orders !== "Loading...") {
     data = orders.orders.map((order, index) => {
-      return createData(index, setDate(order.date.split("T")[0]), order.product.name, order.userId, order.quantity, order.product.price)
+      return createData(index, setDate(order.date.split("T")[0]), order.product.name, order.userId._id, order.quantity, order.product.price)
     })
     data.reverse() ;
   }
