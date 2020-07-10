@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Link from '@material-ui/core/Link';
+import {Link} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Title from './Title';
@@ -57,6 +57,7 @@ export default function Deposits(props) {
         total += orders.orders[i].product.price * orders.orders[i].quantity ; 
       }
     }
+    total = "£ " + total ;
   }
   let tempDate = new Date();
   const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -66,16 +67,16 @@ export default function Deposits(props) {
 
   return (
     <React.Fragment>
-      <Title>Recent Revenue Annual</Title>
+      <Title>Recent Revenue</Title>
       <Typography component="p" variant="h4">
-        {total}
+       {total}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
         updated on {date}
       </Typography>
       <div>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          View balance
+        <Link style={{color:"#3f51b5"}} to="/dashboard/orders" >
+          View More
         </Link>
       </div>
     </React.Fragment>

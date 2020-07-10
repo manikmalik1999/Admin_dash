@@ -6,13 +6,16 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
-import BarChartIcon from '@material-ui/icons/BarChart';
-import LayersIcon from '@material-ui/icons/Layers';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+// import BarChartIcon from '@material-ui/icons/BarChart';
+// import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CategoryIcon from '@material-ui/icons/Category';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Cookies from "universal-cookie";
+import Badge from '@material-ui/core/Badge';
+
 
 const cookies = new Cookies();
 
@@ -33,7 +36,9 @@ export const mainListItems = (
       <ListItem style={{ color: "white", fontWeight: "bold" }} button>
         <Tooltip title="Pending-Products" placement="right-start">
           <ListItemIcon>
-            <ShoppingCartIcon style={{ color: "white" }} />
+            <Badge badgeContent={4} color="secondary">
+              <AddShoppingCartIcon style={{ color: "white" }} />
+            </Badge>
           </ListItemIcon>
         </Tooltip>
         <ListItemText primary="Pending-Products" />
@@ -51,22 +56,34 @@ export const mainListItems = (
     </Link>
     <Link to="/dashboard/reviews">
       <ListItem style={{ color: "white", fontWeight: "bold" }} button>
-        <Tooltip title="reviw=ews" placement="right-start">
+        <Tooltip title="Reviews" placement="right-start">
           <ListItemIcon>
-            <PeopleIcon style={{ color: "white" }} />
+            <AssignmentIcon style={{ color: "white" }} />
           </ListItemIcon>
         </Tooltip>
         <ListItemText primary="Reviews" />
       </ListItem>
     </Link>
-    {/* <ListItem style={{ color: "white", fontWeight: "bold" }} button>
-        <Tooltip title="integrations" placement="right-start">
+    <Link to="/dashboard/sellers">
+      <ListItem style={{ color: "white", fontWeight: "bold" }} button>
+        <Tooltip title="Sellers" placement="right-start">
           <ListItemIcon>
-            <LayersIcon style={{ color: "white" }} />
+            <PeopleIcon style={{ color: "white" }} />
           </ListItemIcon>
         </Tooltip>
-        <ListItemText primary="Integrations" />
-      </ListItem> */}
+        <ListItemText primary="Sellers" />
+      </ListItem>
+    </Link>
+    <Link to="/dashboard/orders">
+      <ListItem style={{ color: "white", fontWeight: "bold" }} button>
+        <Tooltip title="Orders" placement="right-start">
+          <ListItemIcon>
+            <ShoppingCartIcon style={{ color: "white" }} />
+          </ListItemIcon>
+        </Tooltip>
+        <ListItemText primary="Orders" />
+      </ListItem>
+    </Link>
   </div>
 
 );

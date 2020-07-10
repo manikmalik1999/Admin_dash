@@ -39,6 +39,7 @@ class PendingProducts extends Component {
         axios
             .get('https://limitless-lowlands-36879.herokuapp.com/products')
             .then(response => {
+                console.log("---> hre") ;
                 console.log(response) ; 
                 this.setState({
                     products: response.data.products,
