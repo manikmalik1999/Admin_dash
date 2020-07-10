@@ -31,6 +31,7 @@ import Orders from './Orders';
 import PendingProducts from "../PendingProducts/PendingProducts";
 import PendingProductDetail from "../PendingProducts/PendingProductDetail/PendingProductDetail";
 import { Route } from "react-router-dom";
+import {default as LLink} from "react-router-dom/Link";
 import Categories from './Categories/categories';
 import AddCategory from './Categories/Add-Category/AddCategory';
 import Reviews from './Reviews/Reviews';
@@ -38,14 +39,16 @@ import Axios from 'axios';
 import Cookies from "universal-cookie";
 import { Redirect } from "react-router-dom";
 import { Snackbar, SnackbarContent } from "@material-ui/core";
+import Sellers from "../Sellers/Sellers" ;
 import IndividualProdReview from '../Dashboard-components/Reviews/IndividualProdReview/IndividualProdReview';
+import SellerDetails from "../Sellers/Seller/SellerDetails" ;
 
 const cookies = new Cookies();
 
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" style={{ margin: "auto 24px",position:"absolute",right:"12px",bottom:"6px" }}>
+    <Typography variant="body2" color="textSecondary" style={{ margin: "auto 24px", position: "absolute", right: "12px", bottom: "6px" }}>
       {'Copyright © '}
       <Link color="inherit" href="https://engagenreap.com/">
         Enr
@@ -100,8 +103,8 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     whiteSpace: 'nowrap',
     width: drawerWidth,
-    backgroundSize : "cover",
-    background: 'linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.7)) , url("https://wallpaperaccess.com/full/256531.jpg") no-repeat center center' ,
+    backgroundSize: "cover",
+    background: 'linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.7)) , url("https://wallpaperaccess.com/full/256531.jpg") no-repeat center center',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -129,7 +132,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(4),
   },
   paper: {
-    boxShadow : "2px 3px 8px lightgrey",
+    boxShadow: "2px 3px 8px lightgrey",
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
@@ -154,11 +157,14 @@ const Dashboard = (props) => {
   const [orders, setOrders] = useState({
     orders: null
   })
-  const [redirect,setRedirect] = useState({
-    to : null 
+  const [sellers, setSellers] = useState({
+    sellers: null
   })
-  const [http,setHttp] = useState({
-    set : false
+  const [redirect, setRedirect] = useState({
+    to: null
+  })
+  const [http, setHttp] = useState({
+    set: false
   })
 
 
@@ -204,13 +210,13 @@ const Dashboard = (props) => {
   }
   //logout handler
   const logoutHandler = () => {
-    console.log("logout") ;
+    console.log("logout");
     cookies.remove('Token', { path: '/' });
     setRedirect({
-      to : <Redirect to="/login" />
+      to: <Redirect to="/login" />
     })
     setLoginSnack({
-      show:true
+      show: true
     })
   }
 
@@ -223,17 +229,33 @@ const Dashboard = (props) => {
       }
     })
       .then(response => {
+        console.log(response.data) ;
         setOrders({
           orders: response.data.orders
         })
-        setHttp({
-          set : true
-        })
+        // setHttp({
+        //   set: true
+        // })
       })
       .catch(err => {
         console.log(err);
       })
-  },[http.set]);
+      Axios.get("https://limitless-lowlands-36879.herokuapp.com/sellers", {
+        headers: {
+          "Authorization": "Bearer " + token
+        }
+      })
+      .then( response => {
+        console.log("---Sellers") ;
+        console.log(response) ;
+        setSellers({
+          sellers : response.data.users
+        })
+      })
+      .catch(err => {
+        console.log(err) ;
+      })
+  }, []);
 
   return (
     <div className={classes.root} >
@@ -261,7 +283,7 @@ const Dashboard = (props) => {
           <IconButton
             edge="start"
             color="inherit"
-            style={{color:"white"}}
+            style={{ color: "white" }}
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
@@ -278,14 +300,18 @@ const Dashboard = (props) => {
             <AddCategory />
           </Typography>
 
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+          <Tooltip title="Pending Products" TransitionComponent={Zoom} >
+            <IconButton color="inherit">
+              <LLink to="/dashboard/pending-products">
+                <Badge badgeContent={4} color="secondary">
+                  <NotificationsIcon style={{color:"white"}} />
+                </Badge>
+              </LLink>
+            </IconButton>
+          </Tooltip>
           <Tooltip title="Logout" TransitionComponent={Zoom} >
-            <IconButton  onClick={logoutHandler}>
-              <ExitToAppIcon style={{color:"white"}} />
+            <IconButton onClick={logoutHandler}>
+              <ExitToAppIcon style={{ color: "white" }} />
             </IconButton>
           </Tooltip>
         </Toolbar>
@@ -299,11 +325,11 @@ const Dashboard = (props) => {
       >
         <div className={classes.toolbarIcon}>
           <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon style={{color:"white",outline:"none"}} />
+            <ChevronLeftIcon style={{ color: "white", outline: "none" }} />
           </IconButton>
         </div>
         <List>{mainListItems}</List>
-        <Divider style={{background:"lightgrey"}}  />
+        <Divider style={{ background: "lightgrey" }} />
         <List onClick={logoutHandler}>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
@@ -325,7 +351,7 @@ const Dashboard = (props) => {
               </Grid>
               <Grid item xs={12}>
                 <Paper className={classes.paper}>
-                  <Orders orders={orders.orders} />
+                  <Orders orders={orders.orders} onlyOrders={false} />
                 </Paper>
               </Grid>
               <Grid container spacing={3}>
@@ -341,6 +367,18 @@ const Dashboard = (props) => {
           {/* Pending Product Details */}
           <Route path="/dashboard/pending-product/:id" exact component={PendingProductDetail} />
 
+          {/* Seller Details */}
+          <Route path="/dashboard/sellers/:id" exact component={SellerDetails} />
+
+          {/* categories section */}
+          <Route path="/dashboard/sellers" exact>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Sellers sellers={sellers.sellers} />
+              </Paper>
+            </Grid>
+          </Route>
+
           {/* categories section */}
           <Route path="/dashboard/categories" exact>
             <Grid item xs={12}>
@@ -350,16 +388,23 @@ const Dashboard = (props) => {
             </Grid>
           </Route>
 
-            {/* Reviews section */}
-            <Route path="/dashboard/reviews" exact>
-              <Grid item xs={12}>
-                <Paper className={classes.paper}>
-                  <Reviews />
-                </Paper>
-              </Grid>
-            </Route>
-
-            {/* Pending Product Details */}
+          {/* Reviews section */}
+          <Route path="/dashboard/reviews" exact>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Reviews />
+              </Paper>
+            </Grid>
+          </Route>
+          {/* All Orders */}
+          <Route path="/dashboard/orders">
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Orders orders={orders.orders} onlyOrders={true} />
+              </Paper>
+            </Grid>
+          </Route>
+          {/* Pending Product Details */}
           <Route path="/dashboard/reviews/:id" exact component={IndividualProdReview}>
           </Route>
 
