@@ -43,7 +43,7 @@ export default function Product(props) {
             //   </IconButton>
             // }
             title={props.title}
-            subheader={"Rs. " + props.price}
+            subheader={"£ " + props.price}
           />
           <CardMedia
             className={classes.media}

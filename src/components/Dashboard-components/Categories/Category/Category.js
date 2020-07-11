@@ -8,7 +8,36 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import classes from './Category.css';
+import { withStyles } from '@material-ui/core/styles';
 
+const StyledButton = withStyles({
+  root: {
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    borderRadius: 3,
+    border: 0,
+    color: 'white',
+    height: 40,
+    padding: '0 30px',
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+  },
+  label: {
+    textTransform: 'capitalize',
+  },
+})(Button);
+const StyledButton2 = withStyles({
+  root: {
+    background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+    borderRadius: 3,
+    border: 0,
+    color: 'white',
+    height: 40,
+    padding: '0 30px',
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+  },
+  label: {
+    textTransform: 'capitalize',
+  },
+})(Button);
 
 export default function Category(props){
 
@@ -21,7 +50,7 @@ export default function Category(props){
             title={props.category}
           />
           <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
+            <Typography gutterBottom variant="h5" component="h2" color="primary">
               {props.category}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
@@ -30,12 +59,14 @@ export default function Category(props){
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button size="small" color="primary">
+          {/* <Button size="small" color="primary">
             Sales
-          </Button>
-          <Button size="small" color="primary">
-            Details
-          </Button>
+          </Button> */}
+          {/* <Button size="small" color="success">
+            Products
+          </Button> */}
+          <StyledButton>Products</StyledButton>
+          <StyledButton2>PendingProducts</StyledButton2>
         </CardActions>
       </Card>
   );

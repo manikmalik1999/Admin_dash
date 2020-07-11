@@ -82,7 +82,7 @@ class PendingProducts extends Component {
         }
 
         return (
-            <Grid item xs={12}>
+            <Grid item xs={16}>
                 <Paper >
                     <Snackbar
                         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}

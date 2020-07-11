@@ -86,7 +86,7 @@ class PendingProductDetail extends Component {
                                     <Col>
                                         <h2>{this.state.product.name}</h2>
                                         <p>{this.state.product.description}</p>
-                                        <h5>Rs. {this.state.product.price}</h5>
+                                        <h5>£ {this.state.product.price}</h5>
                                         <h6>{this.state.product.category}</h6>
                                         <h6>{this.state.product.sellerID}</h6>
                                         <p>Quantity : {this.state.product.quantity} pcs</p>
