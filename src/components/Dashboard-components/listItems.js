@@ -54,6 +54,16 @@ export const mainListItems = (
         <ListItemText primary="Categories" />
       </ListItem>
     </Link>
+    <Link to="/dashboard/products">
+      <ListItem style={{ color: "white", fontWeight: "bold" }} button>
+        <Tooltip title="Categories" placement="right-start">
+          <ListItemIcon>
+            <CategoryIcon style={{ color: "white" }} />
+          </ListItemIcon>
+        </Tooltip>
+        <ListItemText primary="Products" />
+      </ListItem>
+    </Link>
     <Link to="/dashboard/reviews">
       <ListItem style={{ color: "white", fontWeight: "bold" }} button>
         <Tooltip title="Reviews" placement="right-start">
