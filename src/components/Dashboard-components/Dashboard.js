@@ -407,7 +407,6 @@ const Dashboard = (props) => {
           {/* Pending Product Details */}
           <Route path="/dashboard/reviews/:id" exact component={IndividualProdReview}>
           </Route>
-
         </Container>
       </main>
     </div>

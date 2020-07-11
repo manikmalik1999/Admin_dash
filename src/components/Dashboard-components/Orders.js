@@ -101,6 +101,7 @@ function Row(props) {
                     <TableCell align="right">Customer ID</TableCell>
                     <TableCell align="right">Order ID</TableCell>
                   </TableRow>
+                  
                 </TableHead>
                 <TableBody>
                   {row.history.map((historyRow) => (
