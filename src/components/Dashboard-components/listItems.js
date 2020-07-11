@@ -32,16 +32,16 @@ export const mainListItems = (
         <ListItemText primary="Dashboard" />
       </ListItem>
     </Link>
-    <Link to="/dashboard/pending-products">
+    <Link to="/dashboard/products">
       <ListItem style={{ color: "white", fontWeight: "bold" }} button>
-        <Tooltip title="Pending-Products" placement="right-start">
+        <Tooltip title="Products" placement="right-start">
           <ListItemIcon>
             <Badge badgeContent={4} color="secondary">
               <AddShoppingCartIcon style={{ color: "white" }} />
             </Badge>
           </ListItemIcon>
         </Tooltip>
-        <ListItemText primary="Pending-Products" />
+        <ListItemText primary="Products" />
       </ListItem>
     </Link>
     <Link to="/dashboard/categories">
@@ -54,7 +54,7 @@ export const mainListItems = (
         <ListItemText primary="Categories" />
       </ListItem>
     </Link>
-    <Link to="/dashboard/products">
+    {/* <Link to="/dashboard/products">
       <ListItem style={{ color: "white", fontWeight: "bold" }} button>
         <Tooltip title="Categories" placement="right-start">
           <ListItemIcon>
@@ -63,7 +63,7 @@ export const mainListItems = (
         </Tooltip>
         <ListItemText primary="Products" />
       </ListItem>
-    </Link>
+    </Link> */}
     <Link to="/dashboard/reviews">
       <ListItem style={{ color: "white", fontWeight: "bold" }} button>
         <Tooltip title="Reviews" placement="right-start">

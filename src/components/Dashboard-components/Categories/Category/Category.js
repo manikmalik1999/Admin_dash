@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import classes from './Category.css';
 import { withStyles } from '@material-ui/core/styles';
+import {Link} from 'react-router-dom';
 
 const StyledButton = withStyles({
   root: {
@@ -65,8 +66,10 @@ export default function Category(props){
           {/* <Button size="small" color="success">
             Products
           </Button> */}
-          <StyledButton>Products</StyledButton>
-          <StyledButton2>PendingProducts</StyledButton2>
+          <Link to={"/dashboard/categories/" + props.category}>
+          <StyledButton2>Products</StyledButton2>
+          </Link>
+          {/* <StyledButton2>PendingProducts</StyledButton2> */}
         </CardActions>
       </Card>
   );

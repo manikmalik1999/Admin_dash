@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { Redirect } from "react-router-dom" ;
 import Cookies from "universal-cookie" ;
+// import AllProducts from '../../AllProducts/AllProducts';
 
 const cookies = new Cookies() ;
 
@@ -101,6 +102,7 @@ class PendingProductDetail extends Component {
                     </Container>
                     </Paper>
                 </Grid>
+                {/* <AllProducts/> */}
         </Aux>
     )};
 };

@@ -3,6 +3,7 @@ import { Grid } from "@material-ui/core";
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
+import PendingProducts from '../../PendingProducts/PendingProducts';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,6 +26,7 @@ const usStyles = makeStyles((theme) => ({
 
 
 function SellerDetails(props) {
+    console.log(props);
     const im1 = "https://react.semantic-ui.com/images/avatar/large/elliot.jpg";
     const classes = useStyles() ;
     const active = usStyles() ;
@@ -42,7 +44,7 @@ function SellerDetails(props) {
                     <p style={{ marginBottom: "18px" }}>This is some Description about Seller</p>
                     <h6><i>abc@gmail.com</i></h6>
                 </Grid>
-                <Grid item lg={12}>
+                {/* <Grid item lg={12}>
                     <div className={classes.root}>
                         <ButtonGroup style={{background:"#2E3B55",width:"60%",height:"70%"}} aria-label="outlined primary button group">
                             <Button style={{color:"white",width:"240%"}} className={active.root}>Approved</Button>
@@ -50,8 +52,9 @@ function SellerDetails(props) {
                             <Button style={{color:"white",width:"240%"}}>Denied</Button>
                         </ButtonGroup>
                     </div>
-                </Grid>
-                </Grid>
+                </Grid> */}
+            </Grid>
+            <PendingProducts sellerId = {props.match.params.id}/>
         </div>
     )
 }
