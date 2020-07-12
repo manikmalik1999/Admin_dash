@@ -2,22 +2,23 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Menu } from 'semantic-ui-react'
 import PendingProducts from '../PendingProducts/PendingProducts';
+import { Grid } from "@material-ui/core";
 import Aux from '../../hoc/Auxilliary';
 
 const colors = [
-//   'red',
-//   'orange',
-//   'yellow',
-//   'olive',
-//   'green',
-//   'teal',
+  //   'red',
+  //   'orange',
+  //   'yellow',
+  //   'olive',
+  //   'green',
+  //   'teal',
   'blue'
-//   'violet',
-//   'purple',
-//   'pink',
-//   'brown',
-//   'grey',
-//   'black',
+  //   'violet',
+  //   'purple',
+  //   'pink',
+  //   'brown',
+  //   'grey',
+  //   'black',
 ]
 
 class ExampleMenu extends Component {
@@ -29,7 +30,7 @@ class ExampleMenu extends Component {
 
   handleItemClick = (e, { name }) => {
     this.setState({ activeItem: name });
-    
+
   }
 
   render() {
@@ -62,10 +63,12 @@ const AllProducts = () => {
   const menus = colors.map((color) => <ExampleMenu color={color} key={color} />)
 
   return (
-      <Aux>
-      <PendingProducts/>
+    <Aux>
       {menus}
-      </Aux>
+      <Grid container spacing={3} >
+        <PendingProducts />
+      </Grid>
+    </Aux>
   )
 }
 

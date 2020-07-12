@@ -31,7 +31,7 @@ import Orders from './Orders';
 import PendingProducts from "../PendingProducts/PendingProducts";
 import PendingProductDetail from "../PendingProducts/PendingProductDetail/PendingProductDetail";
 import { Route } from "react-router-dom";
-import {default as LLink} from "react-router-dom/Link";
+import { default as LLink } from "react-router-dom/Link";
 import Categories from './Categories/categories';
 import AddCategory from './Categories/Add-Category/AddCategory';
 import Reviews from './Reviews/Reviews';
@@ -39,9 +39,9 @@ import Axios from 'axios';
 import Cookies from "universal-cookie";
 import { Redirect } from "react-router-dom";
 import { Snackbar, SnackbarContent } from "@material-ui/core";
-import Sellers from "../Sellers/Sellers" ;
+import Sellers from "../Sellers/Sellers";
 import IndividualProdReview from '../Dashboard-components/Reviews/IndividualProdReview/IndividualProdReview';
-import SellerDetails from "../Sellers/Seller/SellerDetails" ;
+import SellerDetails from "../Sellers/Seller/SellerDetails";
 import AllProducts from '../AllProducts/AllProducts';
 const cookies = new Cookies();
 
@@ -229,7 +229,7 @@ const Dashboard = (props) => {
       }
     })
       .then(response => {
-        console.log(response.data) ;
+        console.log(response.data);
         setOrders({
           orders: response.data.orders
         })
@@ -240,20 +240,20 @@ const Dashboard = (props) => {
       .catch(err => {
         console.log(err);
       })
-      Axios.get("https://limitless-lowlands-36879.herokuapp.com/sellers", {
-        headers: {
-          "Authorization": "Bearer " + token
-        }
-      })
-      .then( response => {
-        console.log("---Sellers") ;
-        console.log(response) ;
+    Axios.get("https://limitless-lowlands-36879.herokuapp.com/sellers", {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+      .then(response => {
+        console.log("---Sellers");
+        console.log(response);
         setSellers({
-          sellers : response.data.users
+          sellers: response.data.users
         })
       })
       .catch(err => {
-        console.log(err) ;
+        console.log(err);
       })
   }, []);
 
@@ -304,7 +304,7 @@ const Dashboard = (props) => {
             <IconButton color="inherit">
               <LLink to="/dashboard/pending-products">
                 <Badge badgeContent={4} color="secondary">
-                  <NotificationsIcon style={{color:"white"}} />
+                  <NotificationsIcon style={{ color: "white" }} />
                 </Badge>
               </LLink>
             </IconButton>
@@ -354,16 +354,17 @@ const Dashboard = (props) => {
                   <Orders orders={orders.orders} onlyOrders={false} />
                 </Paper>
               </Grid>
-              <Grid container spacing={3}>
-                <Box pt={4}>
-                  <Copyright />
-                </Box>
-              </Grid>
             </Grid>
           </Route>
+          <Grid container spacing={3}>
+            <Box pt={4}>
+              <Copyright />
+            </Box>
+          </Grid>
+
           {/* pending-products */}
           <Route path="/dashboard/pending-products" exact component={PendingProducts} />
-          
+
           {/* All - Products */}
           <Route path="/dashboard/products" exact component={AllProducts} />
 

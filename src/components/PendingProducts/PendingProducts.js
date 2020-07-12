@@ -40,13 +40,13 @@ class PendingProducts extends Component {
             .get('https://limitless-lowlands-36879.herokuapp.com/products')
             .then(response => {
                 console.log("---> hre") ;
-                console.log(response) ; 
+                console.log(response) ;
                 this.setState({
                     products: response.data.products,
                     snack: {
-                        show: this.props.location.state && true,
-                        message: this.props.location.state && this.props.location.state.value ? "Product Accepted" : "Product Denied",
-                        color: this.props.location.state && this.props.location.state.value ? "green" : "red"
+                        show: this.props && this.props.location && this.props.location.state && true,
+                        message: this.props && this.props.location &&  this.props.location.state && this.props.location.state.value ? "Product Accepted" : "Product Denied",
+                        color: this.props && this.props.location &&  this.props.location.state && this.props.location.state.value ? "green" : "red"
                     }
                 })
             })
@@ -62,7 +62,7 @@ class PendingProducts extends Component {
     render() {
         //snackHandler
         
-        // console.log(this.props);
+        console.log(this.props);
         let products = null;
         if (!this.state.individualProductId) {
             products = this.state.products.map(product => {
@@ -82,7 +82,7 @@ class PendingProducts extends Component {
         }
 
         return (
-            <Grid item xs={16}>
+            <Grid item xs={12}>
                 <Paper >
                     <Snackbar
                         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
