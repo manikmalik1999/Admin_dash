@@ -41,8 +41,8 @@ import { Redirect } from "react-router-dom";
 import { Snackbar, SnackbarContent } from "@material-ui/core";
 import Sellers from "../Sellers/Sellers";
 import IndividualProdReview from '../Dashboard-components/Reviews/IndividualProdReview/IndividualProdReview';
-import SellerDetails from "../Sellers/Seller/SellerDetails";
-import AllProducts from '../AllProducts/AllProducts';
+import SellerDetails from "../Sellers/Seller/SellerDetails" ;
+// import AllProducts from '../AllProducts/AllProducts';
 const cookies = new Cookies();
 
 
@@ -363,10 +363,17 @@ const Dashboard = (props) => {
           </Grid>
 
           {/* pending-products */}
+<<<<<<< HEAD
           <Route path="/dashboard/pending-products" exact component={PendingProducts} />
 
           {/* All - Products */}
           <Route path="/dashboard/products" exact component={AllProducts} />
+=======
+          <Route path="/dashboard/products" exact component={PendingProducts} />
+          
+          {/* All - Products
+          <Route path="/dashboard/products" exact component={AllProducts} /> */}
+>>>>>>> d41daf948baa677cac0879c754c018ce49cd92a2
 
 
           {/* Pending Product Details */}
@@ -392,6 +399,9 @@ const Dashboard = (props) => {
               </Paper>
             </Grid>
           </Route>
+
+          {/* Individual Category section */}
+          <Route path="/dashboard/categories/:category" exact component={PendingProducts}/>
 
           {/* Reviews section */}
           <Route path="/dashboard/reviews" exact>
