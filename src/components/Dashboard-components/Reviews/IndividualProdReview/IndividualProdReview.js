@@ -9,6 +9,7 @@ import { Redirect } from "react-router-dom";
 import ReviewContainer from './ReviewContainer/ReviewContainer';
 import { Typography } from '@material-ui/core';
 import Cookies from 'universal-cookie';
+import { Dimmer, Loader } from "semantic-ui-react";
 
 const cookies = new Cookies();
 
@@ -16,6 +17,7 @@ class IndividualProdReview extends Component {
     state = {
         product: {},
         reviews: [],
+        loading: true,
         redirectToPendingProducts: false
     }
 
@@ -50,7 +52,7 @@ class IndividualProdReview extends Component {
                     axios.get('https://limitless-lowlands-36879.herokuapp.com/reviews/' + this.props.match.params.id)
                         .then(res => {
                             console.log(res.data);
-                            this.setState({ reviews: res.data.reviews });
+                            this.setState({ reviews: res.data.reviews, loading: false });
                         })
                         .catch(err => console.log(err));
                 })
@@ -66,6 +68,7 @@ class IndividualProdReview extends Component {
         }
         let reviews = null;
         if (this.state.reviews.length > 0) {
+            console.log(this.state.reviews) ;
             reviews = this.state.reviews.map(review => {
                 return <ReviewContainer
                     key={review._id}
@@ -78,41 +81,47 @@ class IndividualProdReview extends Component {
                 />
             })
         }
+        let loading = null;
+        let load = this.state.loading;
+        if (load) {
+            loading = (
+                <Dimmer active inverted style={{ marginLeft: "150px", width: "100%" }}>
+                    <Loader size='medium'>Loading</Loader>
+                </Dimmer>
+            )
+        }
 
         return (
             <Aux>
                 {redir}
-                <Grid item xs={12}>
-                    <Paper className={classes.paper}>
-                        <Container>
-                            <Row>
-                                <Col lg={4}>
+                {!load ?
+                    <Grid container spacing={3} style={{ boxShadow: "2px 3px 12px #efefef" }}>
+                        <Grid item xs={12}>
+                            <Grid container spacing={2} style={{borderBottom : "1px solid lightgrey"}} >
+                                <Grid item lg={4}>
                                     <img src={"https://limitless-lowlands-36879.herokuapp.com/" + this.state.product.image} style={{ margin: "12px" }} alt="" className={classes.Image} />
-                                </Col>
-                                <Col className={classes.VerLine}>
-                                </Col>
-                                <Col className={classes.Details} lg={6}>
-                                    <Row>
-                                        <Col>
-                                            <h2>{this.state.product.name}</h2>
-                                            <p>{this.state.product.description}</p>
-                                            <h5>Rs. {this.state.product.price}</h5>
-                                            <h6>{this.state.product.category}</h6>
-                                            <h6>{this.state.product.sellerID}</h6>
-                                            <p>Quantity : {this.state.product.quantity} pcs</p>
-                                        </Col>
-                                        {/* <Col>
-                                    <Button vaiant="success" onClick={this.acceptHandler} className={classes.Btn}>Accept Request</Button>
-                                    <Button variant="danger" onClick={this.denyHandler} className={classes.Btn}>Deny Request</Button>
-                                    </Col> */}
-                                    </Row>
-                                </Col>
-                            </Row>
-                        </Container>
-                    </Paper>
-                </Grid>
-                <Typography variant="h6">All Reviews</Typography>
-                {reviews}
+                                </Grid>
+                                <Grid item className={classes.VerLine}>
+                                </Grid>
+                                <Grid item className={classes.Details} lg={6} >
+                                    <Grid item >
+                                        <h2>{this.state.product.name}</h2>
+                                        <p>{this.state.product.description}</p>
+                                        <h5>Rs. {this.state.product.price}</h5>
+                                        <h6>{this.state.product.category}</h6>
+                                        <h6>{this.state.product.sellerID}</h6>
+                                        <p>Quantity : {this.state.product.quantity} pcs</p>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid item lg={12}>
+                            <Typography variant="h6" style={{ textAlign: "center" }}>All Reviews</Typography>
+                            {reviews}
+                        </Grid>
+                    </Grid> :
+                    loading
+                }
             </Aux>
         )
     };

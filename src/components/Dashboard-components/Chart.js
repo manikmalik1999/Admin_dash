@@ -70,21 +70,26 @@ export default function Chart(props) {
       category : value
     })
   }
-  let categoryOptions = [];
+  let categoryOptions = [] ;
+  const all = {
+    key : "abcxyz",
+    value : "all",
+    text : "All"
+  };
   if( categories.cat !== []  ){
-    categoryOptions = categories.cat.map(category => {
+    let others = categories.cat.map(category => {
       return {
         key : category._id,
         value : category.category,
         text: category.category
       }
-    })
+    }) ;
+    categoryOptions = [ all , ...others  ]
   }
   // console.log(lastDates) ;
   useEffect(() => {
     Axios.get("http://limitless-lowlands-36879.herokuapp.com/categories")
       .then(response => {
-        console.log(response.data) ;
         setCategories({
           cat : response.data.categories
         })

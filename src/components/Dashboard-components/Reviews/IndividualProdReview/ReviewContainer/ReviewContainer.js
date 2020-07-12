@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { TextareaAutosize, IconButton } from '@material-ui/core';
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { Rating } from "semantic-ui-react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,37 +31,26 @@ export default function ReviewContainer(props) {
 
   return (
     <div className={classes.root}>
-      {/* <Paper className={classes.paper}>
-        <Grid container wrap="nowrap" spacing={2}>
-          <Grid item>
-            <Avatar>W</Avatar>
-          </Grid>
-          <Grid item xs zeroMinWidth>
-            <Typography noWrap>{message}</Typography>
-          </Grid>
-        </Grid>
-      </Paper>
       <Paper className={classes.paper}>
-        <Grid container wrap="nowrap" spacing={2}>
-          <Grid item>
-            <Avatar>W</Avatar>
-          </Grid>
-          <Grid item xs>
-            <Typography noWrap>{message}</Typography>
-          </Grid>
-        </Grid>
-      </Paper> */}
-      <Paper className={classes.paper}>
-        <Grid container wrap="nowrap" spacing={2}>
-          <Grid item>
+        <Grid container spacing={3}>
+          {/* <Grid item xs={1}>
             <Avatar className={classes.purple}>{props.avatar}</Avatar>
+          </Grid> */}.
+          <Grid item xs={3} style={{ borderRight: "1px solid lightgrey"}}>
+            <h6 style={{display:"inline-block"}}>{props.name}</h6>
+            <Rating icon='star' defaultRating={props.value} style={{float:"right"}} maxRating={5} />
+            <br />
+            <br />
+            <p>User Id : {props.id}</p>
           </Grid>
-          <Grid item xs>
-            <Typography variant="body2">{props.message}</Typography>
+          <Grid item xs={6} style={{ margin: "auto" }}>
+            <p style={{fontSize:"14px"}}>{props.message}</p>
           </Grid>
-          <IconButton onClick={props.clicked} id={props.id}>
-            <DeleteIcon/>
-          </IconButton>
+          <Grid item xs={1} style={{ borderLeft: "1px solid lightgrey",margin:"Auto" }}>
+            <IconButton onClick={props.clicked} id={props.id}>
+              <DeleteIcon />
+            </IconButton>
+          </Grid>
         </Grid>
       </Paper>
     </div>

@@ -36,9 +36,9 @@ export const mainListItems = (
       <ListItem style={{ color: "white", fontWeight: "bold" }} button>
         <Tooltip title="Products" placement="right-start">
           <ListItemIcon>
-            <Badge badgeContent={4} color="secondary">
+            {/* <Badge badgeContent={4} color="secondary"> */}
               <AddShoppingCartIcon style={{ color: "white" }} />
-            </Badge>
+            {/* </Badge> */}
           </ListItemIcon>
         </Tooltip>
         <ListItemText primary="Products" />

@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Product(props) {
   const classes2 = useStyles();
+  // console.log(props) ;
   return (
     <Link to={"/dashboard/pending-product/" + props.id}>
       <Card style={{ width: '19rem'}} className={classes.Outer}>
@@ -56,12 +57,15 @@ export default function Product(props) {
             </Typography>
           </CardContent>
           <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites">
+          {/* <Typography variant="body2" color="textSecondary" component="p">
+              {props.sellerId}
+            </Typography> */}
+            {/* <IconButton aria-label="add to favorites">
               <FavoriteIcon />
             </IconButton>
             <IconButton aria-label="share">
               <ShareIcon />
-            </IconButton>
+            </IconButton> */}
           </CardActions>
         </Card>
       </Card>

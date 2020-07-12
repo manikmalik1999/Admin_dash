@@ -1,16 +1,16 @@
 import React from 'react'
 import { Card, Icon, Image } from 'semantic-ui-react';
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import DraftsRoundedIcon from '@material-ui/icons/DraftsRounded';
 import LabelImportantRoundedIcon from '@material-ui/icons/LabelImportantRounded';
-import elliot from  "../../../assets/img/elliot.jpg" ;
+import elliot from "../../../assets/img/elliot.jpg";
 
 const Seller = (props) => {
-    const im1 = "https://react.semantic-ui.com/images/avatar/large/elliot.jpg";
-    const im2 = "https://react.semantic-ui.com/images/avatar/large/matthew.png";
-    let img = (Math.random() >= 0.5) ? im1 : im2;
-    console.log(img);
+    // const im1 = "https://react.semantic-ui.com/images/avatar/large/elliot.jpg";
+    // const im2 = "https://react.semantic-ui.com/images/avatar/large/matthew.png";
+    // let img = (Math.random() >= 0.5) ? im1 : im2;
+    // console.log(img);
     return (
         <Card style={{ width: "100%", boxShadow: "1px 2px 15px lightgrey" }}>
             <Image src={elliot} style={{ maxHeight: "240px" }} ui={false} />
@@ -25,7 +25,13 @@ const Seller = (props) => {
             <Card.Content style={{ padding: "8px", margin: "auto", width: "100%" }}>
                 <DraftsRoundedIcon style={{ marginRight: "12px", marginLeft: "18px" }} />
                 {props.seller.email}
-                <Link to={"/dashboard/sellers/" + props.seller._id} >
+                <Link to={{
+                    pathname: "/dashboard/sellers/" + props.seller._id + "/" + props.seller.name + "/" + props.seller.email,
+                    // myData: {
+                    //     name: props.seller.name,
+                    //     email : props.seller.email
+                    // }
+                }}>
                     <LabelImportantRoundedIcon style={{ float: "right", marginRight: "12px" }} />
                 </Link>
             </Card.Content>

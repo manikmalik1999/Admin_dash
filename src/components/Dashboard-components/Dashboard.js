@@ -41,7 +41,7 @@ import { Redirect } from "react-router-dom";
 import { Snackbar, SnackbarContent } from "@material-ui/core";
 import Sellers from "../Sellers/Sellers";
 import IndividualProdReview from '../Dashboard-components/Reviews/IndividualProdReview/IndividualProdReview';
-import SellerDetails from "../Sellers/Seller/SellerDetails" ;
+import SellerDetails from "../Sellers/Seller/SellerDetails";
 // import AllProducts from '../AllProducts/AllProducts';
 const cookies = new Cookies();
 
@@ -160,11 +160,17 @@ const Dashboard = (props) => {
   const [sellers, setSellers] = useState({
     sellers: null
   })
+  const [pending, setPending] = useState({
+    pending: "+"
+  })
   const [redirect, setRedirect] = useState({
     to: null
   })
   const [http, setHttp] = useState({
     set: false
+  })
+  const [notification, setNotification] = useState({
+    notification: true
   })
 
 
@@ -219,7 +225,11 @@ const Dashboard = (props) => {
       show: true
     })
   }
-
+  const removeNotificationHandler = () => {
+    setNotification({
+      notification : false 
+    })
+  }
 
   //data from orders
   useEffect(() => {
@@ -238,7 +248,26 @@ const Dashboard = (props) => {
       })
       .catch(err => {
         console.log(err);
+      });
+    Axios.get("https://limitless-lowlands-36879.herokuapp.com/products", {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+      .then(response => {
+        const prods = response.data.products.filter(product => {
+          if (product.approved === "pending") {
+            return true;
+          }
+          return false;
+        })
+        setPending({
+          pending: prods.length || 0
+        })
       })
+      .catch(err => {
+        console.log(err);
+      });
     Axios.get("https://limitless-lowlands-36879.herokuapp.com/sellers", {
       headers: {
         "Authorization": "Bearer " + token
@@ -253,7 +282,6 @@ const Dashboard = (props) => {
         console.log(err);
       })
   }, []);
-
   return (
     <div className={classes.root} >
       {redirect.to}
@@ -299,10 +327,15 @@ const Dashboard = (props) => {
 
           <Tooltip title="Pending Products" TransitionComponent={Zoom} >
             <IconButton color="inherit">
-              <LLink to="/dashboard/pending-products">
-                <Badge badgeContent={4} color="secondary">
-                  <NotificationsIcon style={{ color: "white" }} />
-                </Badge>
+              <LLink to="/dashboard/products" >
+                {notification.notification ?
+                  <Badge badgeContent={pending.pending} color="secondary">
+                    <NotificationsIcon style={{ color: "white" }} onClick={removeNotificationHandler} />
+                  </Badge> :
+                  <Badge color="secondary">
+                    <NotificationsIcon style={{ color: "white" }} />
+                  </Badge>
+                }
               </LLink>
             </IconButton>
           </Tooltip>
@@ -361,7 +394,7 @@ const Dashboard = (props) => {
 
           {/* pending-products */}
           <Route path="/dashboard/products" exact component={PendingProducts} />
-          
+
           {/* All - Products
           <Route path="/dashboard/products" exact component={AllProducts} /> */}
 
@@ -370,7 +403,7 @@ const Dashboard = (props) => {
           <Route path="/dashboard/pending-product/:id" exact component={PendingProductDetail} />
 
           {/* Seller Details */}
-          <Route path="/dashboard/sellers/:id" exact component={SellerDetails} />
+          <Route path="/dashboard/sellers/:id/:name/:email" component={SellerDetails} />
 
           {/* categories section */}
           <Route path="/dashboard/sellers" exact>
@@ -391,7 +424,7 @@ const Dashboard = (props) => {
           </Route>
 
           {/* Individual Category section */}
-          <Route path="/dashboard/categories/:category" exact component={PendingProducts}/>
+          <Route path="/dashboard/categories/:category" exact component={PendingProducts} />
 
           {/* Reviews section */}
           <Route path="/dashboard/reviews" exact>
