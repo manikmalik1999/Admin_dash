@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import classes from './Category.css';
 import { withStyles } from '@material-ui/core/styles';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const StyledButton = withStyles({
   root: {
@@ -25,6 +25,7 @@ const StyledButton = withStyles({
     textTransform: 'capitalize',
   },
 })(Button);
+
 const StyledButton2 = withStyles({
   root: {
     background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
@@ -40,37 +41,37 @@ const StyledButton2 = withStyles({
   },
 })(Button);
 
-export default function Category(props){
+export default function Category(props) {
 
   return (
-      <Card className={classes.root} style={{width:"280px",display:"inline-block",margin: "16px"}}>
-        <CardActionArea>
-          <CardMedia
-            className={classes.media}
-            image="https://don16obqbay2c.cloudfront.net/wp-content/uploads/Storefront_Images_C-1481632060.png"
-            title={props.category}
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2" color="primary">
-              {props.category}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              Sale is extremely good in this section
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          {/* <Button size="small" color="primary">
+    <Card className={classes.root} style={{ width: "280px", display: "inline-block", margin: "16px" }}>
+      <CardActionArea>
+        <CardMedia
+          className={classes.media}
+          image="https://don16obqbay2c.cloudfront.net/wp-content/uploads/Storefront_Images_C-1481632060.png"
+          title={props.category}
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2" color="primary">
+            {props.category}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            Sale is extremely good in this section
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+        {/* <Button size="small" color="primary">
             Sales
           </Button> */}
-          {/* <Button size="small" color="success">
+        {/* <Button size="small" color="success">
             Products
           </Button> */}
-          <Link to={"/dashboard/categories/" + props.category}>
-          <StyledButton2>Products</StyledButton2>
-          </Link>
-          {/* <StyledButton2>PendingProducts</StyledButton2> */}
-        </CardActions>
-      </Card>
+        <Link to={"/dashboard/categories/" + props.category}>
+          <StyledButton2 style={{ width: "160px", marginLeft: "52px" }}>Products</StyledButton2>
+        </Link>
+        {/* <StyledButton2>PendingProducts</StyledButton2> */}
+      </CardActions>
+    </Card>
   );
 }

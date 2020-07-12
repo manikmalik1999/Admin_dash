@@ -6,18 +6,19 @@ import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer, CartesianGri
 import { Grid } from "@material-ui/core";
 import Title from './Title';
 import { Dropdown } from 'semantic-ui-react';
+import Axios from 'axios';
 
 
 function createData(time, amount) {
   return { time: time, amount: amount };
 }
 
-const categoryOptions = [
-  { key: 'af', value: 'all', text: 'All' },
-  { key: 'ax', value: 'sports', text: 'Sports' },
-  { key: 'al', value: 'fashion', text: 'Fashion' },
-  { key: 'dz', value: 'electronics', text: 'Electronics' },
-]
+// const categoryOptions = [
+//   { key: 'af', value: 'all', text: 'All' },
+//   { key: 'ax', value: 'sports', text: 'Sports' },
+//   { key: 'al', value: 'fashion', text: 'Fashion' },
+//   { key: 'dz', value: 'electronics', text: 'Electronics' }
+// ]
 
 const getLastDates = (back) => {
   let date = new Date();
@@ -54,6 +55,10 @@ export default function Chart(props) {
   const [category,setCategory] = useState({
     category : "all" 
   })
+  const [categories,setCategories] = useState({
+    cat : []
+  })
+
   // console.log(orders.orders) ;
   const lastDates = [];
   for (let back = 6; back >= 0; --back) {
@@ -65,15 +70,37 @@ export default function Chart(props) {
       category : value
     })
   }
-
+  let categoryOptions = [];
+  if( categories.cat !== []  ){
+    categoryOptions = categories.cat.map(category => {
+      return {
+        key : category._id,
+        value : category.category,
+        text: category.category
+      }
+    })
+  }
   // console.log(lastDates) ;
+  useEffect(() => {
+    Axios.get("http://limitless-lowlands-36879.herokuapp.com/categories")
+      .then(response => {
+        console.log(response.data) ;
+        setCategories({
+          cat : response.data.categories
+        })
+      })
+      .catch(err => {
+        console.log(err) ;
+      })
+  }, []);
+
   useEffect(() => {
     if (props.orders && orders.orders === "Loading...") {
       setOrders({
         orders: props.orders
       })
       // console.log(props.orders);
-    }
+    }  
   }, [props.orders]);
   let data = lastDates.map(date => {
     return createData(date, 0);

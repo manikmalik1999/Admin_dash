@@ -229,7 +229,6 @@ const Dashboard = (props) => {
       }
     })
       .then(response => {
-        console.log(response.data);
         setOrders({
           orders: response.data.orders
         })
@@ -246,8 +245,6 @@ const Dashboard = (props) => {
       }
     })
       .then(response => {
-        console.log("---Sellers");
-        console.log(response);
         setSellers({
           sellers: response.data.users
         })
@@ -363,17 +360,10 @@ const Dashboard = (props) => {
           </Grid>
 
           {/* pending-products */}
-<<<<<<< HEAD
-          <Route path="/dashboard/pending-products" exact component={PendingProducts} />
-
-          {/* All - Products */}
-          <Route path="/dashboard/products" exact component={AllProducts} />
-=======
           <Route path="/dashboard/products" exact component={PendingProducts} />
           
           {/* All - Products
           <Route path="/dashboard/products" exact component={AllProducts} /> */}
->>>>>>> d41daf948baa677cac0879c754c018ce49cd92a2
 
 
           {/* Pending Product Details */}

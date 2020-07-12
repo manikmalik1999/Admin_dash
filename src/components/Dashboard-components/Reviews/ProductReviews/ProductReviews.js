@@ -30,7 +30,7 @@ export default function ProductReviews(props) {
   const classes2 = useStyles();
   return (
     <Link to={"/dashboard/reviews/" + props.id}>
-      <Card style={{ width: '17rem'}} className={classes.Outer}>
+      <Card style={{ width: '19rem'}} className={classes.Outer}>
         <Card className={classes.root} onClick = {props.clicked}>
           <CardHeader
             avatar={

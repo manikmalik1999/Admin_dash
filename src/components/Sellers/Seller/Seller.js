@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import DraftsRoundedIcon from '@material-ui/icons/DraftsRounded';
 import LabelImportantRoundedIcon from '@material-ui/icons/LabelImportantRounded';
+import elliot from  "../../../assets/img/elliot.jpg" ;
 
 const Seller = (props) => {
     const im1 = "https://react.semantic-ui.com/images/avatar/large/elliot.jpg";
@@ -12,7 +13,7 @@ const Seller = (props) => {
     console.log(img);
     return (
         <Card style={{ width: "100%", boxShadow: "1px 2px 15px lightgrey" }}>
-            <Image src={im1} style={{ maxHeight: "240px" }} ui={false} />
+            <Image src={elliot} style={{ maxHeight: "240px" }} ui={false} />
             <Card.Content style={{ padding: "10px", paddingLeft: "18px", paddingBottom: "0px" }}>
                 <h4 style={{ color: "#222021", fontSize: "18px", margin: "0px" }}>{props.seller.name}</h4>
                 <Card.Meta style={{ color: "#808588", fontSize: "13px", marginBottom: "14px" }}>Joined in 2016</Card.Meta>

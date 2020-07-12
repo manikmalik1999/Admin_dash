@@ -32,11 +32,11 @@ function SellerDetails(props) {
     const active = usStyles() ;
     return (
         <div>
-            <p style={{ marginBottom: "18px" }}>Seller Details</p>
-            <Grid container spacing={4} alignItems="center" >
-                <Grid item lg={1} />
-                <Grid item lg={4} >
-                    <img src={im1} style={{ maxHeight: "340px" }} />
+            <p style={{ marginBottom: "18px",textAlign:"center" }}>Seller Details</p>
+            <Grid container spacing={4} alignItems="center" style={{marginBottom:"24px"}} >
+                <Grid item lg={2} />
+                <Grid item lg={3} >
+                    <img src={im1} style={{ maxHeight: "280px",borderRadius:"6px" }} />
                 </Grid>
                 <Grid item lg={2} />
                 <Grid item lg={5} style={{ height: "100%" }}>
