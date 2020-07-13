@@ -16,7 +16,7 @@ class Categories extends Component {
     componentDidMount() {
         Axios.get('https://limitless-lowlands-36879.herokuapp.com/categories')
             .then(response => {
-                console.log(response);
+                // console.log(response);
                 this.setState({ categories: response.data.categories, loading: false });
             })
             .catch(err => console.log(err));

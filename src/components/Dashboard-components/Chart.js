@@ -88,7 +88,7 @@ export default function Chart(props) {
   }
   // console.log(lastDates) ;
   useEffect(() => {
-    Axios.get("http://limitless-lowlands-36879.herokuapp.com/categories")
+    Axios.get("https://limitless-lowlands-36879.herokuapp.com/categories")
       .then(response => {
         setCategories({
           cat : response.data.categories

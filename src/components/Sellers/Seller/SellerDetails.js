@@ -29,7 +29,7 @@ const usStyles = makeStyles((theme) => ({
 
 
 function SellerDetails(props) {
-    console.log(props);
+    // console.log(props);
     const [seller,setSeller] = useState({
         name:"Loading...",
         email : "Loading...",
@@ -55,7 +55,7 @@ function SellerDetails(props) {
     const active = usStyles() ;
     let name="Loading...", email="Loading...",desc="Loading..." ;
     if( !loading.loading ){
-        console.log("selelrsfvs") ;
+        // console.log("selelrsfvs") ;
         name = seller.name;
         email = seller.email ;
         desc = seller.desc ;

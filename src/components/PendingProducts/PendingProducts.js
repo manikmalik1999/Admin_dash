@@ -426,7 +426,7 @@ class PendingProducts extends Component {
     };
 
     menubarHandler = (event, { name, value }) => {
-        console.log(value);
+        // console.log(value);
         this.setState({ activeItem: name, curr: value })
     }
 

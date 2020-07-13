@@ -29,7 +29,7 @@ class PendingProductDetail extends Component {
         if (this.props.match.params.id) {
             axios.get('https://limitless-lowlands-36879.herokuapp.com/products/' + this.props.match.params.id)
                 .then(response => {
-                    console.log(response);
+                    // console.log(response);
                     this.setState({
                         product: response.data.product,
                         seller: response.data.product.sellerId,

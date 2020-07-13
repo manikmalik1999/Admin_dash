@@ -17,7 +17,7 @@ class Reviews extends Component {
     componentDidMount() {
         Axios.get('https://limitless-lowlands-36879.herokuapp.com/reviews')
             .then(response => {
-                console.log(response);
+                // console.log(response);
                 this.setState({ reviewProducts: response.data.reviews, loading: false });
             })
             .catch(err => {

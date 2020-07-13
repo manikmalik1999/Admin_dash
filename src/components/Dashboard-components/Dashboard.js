@@ -216,7 +216,7 @@ const Dashboard = (props) => {
   }
   //logout handler
   const logoutHandler = () => {
-    console.log("logout");
+    // console.log("logout");
     cookies.remove('Token', { path: '/' });
     setRedirect({
       to: <Redirect to="/login" />

@@ -22,7 +22,7 @@ class IndividualProdReview extends Component {
     }
 
     reviewDeleteHandler = (id) => {
-        console.log(id);
+        // console.log(id);
         const token = cookies.get("Token");
         // console.log(token);
         axios.delete('https://limitless-lowlands-36879.herokuapp.com/reviews/' + id, {
@@ -34,7 +34,7 @@ class IndividualProdReview extends Component {
             }
         })
             .then(response => {
-                console.log(response);
+                // console.log(response);
             })
             .catch(err => {
                 console.log(err);
@@ -47,11 +47,11 @@ class IndividualProdReview extends Component {
         if (this.props.match.params.id) {
             axios.get('https://limitless-lowlands-36879.herokuapp.com/products/' + this.props.match.params.id)
                 .then(response => {
-                    console.log(response.data.product);
+                    // console.log(response.data.product);
                     this.setState({ product: response.data.product });
                     axios.get('https://limitless-lowlands-36879.herokuapp.com/reviews/' + this.props.match.params.id)
                         .then(res => {
-                            console.log(res.data);
+                            // console.log(res.data);
                             this.setState({ reviews: res.data.reviews, loading: false });
                         })
                         .catch(err => console.log(err));
@@ -68,7 +68,7 @@ class IndividualProdReview extends Component {
         }
         let reviews = null;
         if (this.state.reviews.length > 0) {
-            console.log(this.state.reviews) ;
+            // console.log(this.state.reviews) ;
             reviews = this.state.reviews.map(review => {
                 return <ReviewContainer
                     key={review._id}

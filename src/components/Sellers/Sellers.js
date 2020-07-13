@@ -41,7 +41,7 @@ function Sellers(props) {
             </Grid>
         )
     }
-    console.log(data);
+    // console.log(data);
     return (
         <div>
             <p style={{ textAlign: "center" }}>Sellers</p>
