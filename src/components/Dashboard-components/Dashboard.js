@@ -172,6 +172,7 @@ const Dashboard = (props) => {
   const [notification, setNotification] = useState({
     notification: true
   })
+  // const [token,setToken] = useState("") ;
 
 
   //state Handlers
@@ -191,6 +192,8 @@ const Dashboard = (props) => {
   //consts
   const classes = useStyles();
   const token = cookies.get("Token");
+  // console.log(tokn) ;
+  // setToken(tokn) ;
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   //redirects nullified for now
@@ -233,12 +236,14 @@ const Dashboard = (props) => {
 
   //data from orders
   useEffect(() => {
+    // console.log(token) ;
     Axios.get("https://limitless-lowlands-36879.herokuapp.com/orders", {
       headers: {
         "Authorization": "Bearer " + token
       }
     })
       .then(response => {
+        // console.log(response) ;
         setOrders({
           orders: response.data.orders
         })
@@ -255,6 +260,7 @@ const Dashboard = (props) => {
       }
     })
       .then(response => {
+        // console.log(response.data) ;
         const prods = response.data.products.filter(product => {
           if (product.approved === "pending") {
             return true;

@@ -124,13 +124,13 @@ const LoginSide = (props) => {
           })
         }
         else {
+          cookies.set("Token", response.data.token, { path: "/", expires: 0 });
           setSnack({
             show: true,
             message: "Logged In",
             color: "green"
           })
           setRedir({ redirect: true });
-          cookies.set("Token", response.data.token, { path: "/", expires: 0 });
         }
       })
       .catch(err => {

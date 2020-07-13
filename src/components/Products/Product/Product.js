@@ -48,7 +48,7 @@ export default function Product(props) {
           />
           <CardMedia
             className={classes.media}
-            image={"https://limitless-lowlands-36879.herokuapp.com/" + props.image.replace("\\","/")} 
+            image={"https://limitless-lowlands-36879.herokuapp.com/" + props.image} 
             title={props.title}
           />
           <CardContent>

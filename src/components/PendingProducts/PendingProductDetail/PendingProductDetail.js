@@ -110,7 +110,7 @@ class PendingProductDetail extends Component {
                         <Grid item xs={12} lg={4}>
                             <img src={"https://limitless-lowlands-36879.herokuapp.com/" + this.state.product.image} style={{ width: "100%", margin: "auto" }} alt="" className={classes.Image} />
                         </Grid>
-                        <Grid item xs={0} sm={1} lg={1} className={classes.VerLine} />
+                        <Grid item xs={1} sm={1} lg={1} className={classes.VerLine} />
                         <Grid item xs={12} sm={7} lg={7} className={classes.Details} lg={6}>
                             {/* <Row> */}
                             <Grid container spacing={2} alignItems="center" style={{ height: "100%" }} >
