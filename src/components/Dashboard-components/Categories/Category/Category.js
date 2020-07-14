@@ -42,7 +42,7 @@ const StyledButton2 = withStyles({
 })(Button);
 
 export default function Category(props) {
-
+  // console.log(props.category) ;
   return (
     <Card className={classes.root} style={{ width: "280px", display: "inline-block", margin: "16px" }}>
       <CardActionArea>

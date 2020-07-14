@@ -57,6 +57,7 @@ export default function Deposits(props) {
         total += orders.orders[i].product.price * orders.orders[i].quantity ; 
       }
     }
+    total = total.toFixed(2) ;
     total = "£ " + total ;
   }
   let tempDate = new Date();

@@ -360,18 +360,19 @@ class PendingProducts extends Component {
                 });
         }
         else if (this.props.match.params.category) {
+            console.log(this.props.match.params.category);
             axios
                 .get('https://limitless-lowlands-36879.herokuapp.com/products')
                 .then(response => {
                     const products = response.data.products;
                     const pendingProducts = products.filter(i => {
-                        return i.approved === "pending" && i.category === this.props.match.params.category;
+                        return i.approved === "pending" && i.category.toLowerCase() === this.props.match.params.category;
                     });
                     const approvedProducts = products.filter(i => {
-                        return i.approved === "true" && i.category === this.props.match.params.category;
+                        return i.approved === "true" && i.category.toLowerCase() === this.props.match.params.category;
                     });
                     const rejectedProducts = products.filter(i => {
-                        return i.approved === "false" && i.category === this.props.match.params.category;
+                        return i.approved === "false" && i.category.toLowerCase() === this.props.match.params.category;
                     });
                     this.setState({
                         pendingProducts: pendingProducts,
@@ -498,7 +499,7 @@ class PendingProducts extends Component {
         let categoryShow = null;
         if (this.props && this.props.match && this.props.match.params && this.props.match.params.category) {
             categoryShow = (
-                <h4 style={{textAlign:"center",padding:"12px"}}>{this.props.match.params.category.toString().toUpperCase()}</h4>
+                <h4 style={{ textAlign: "center", padding: "12px" }}>{this.props.match.params.category.toString().toUpperCase()}</h4>
             );
         }
         return (
