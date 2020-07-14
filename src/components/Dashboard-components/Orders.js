@@ -79,7 +79,7 @@ function Row(props) {
         <TableCell>{row.product}</TableCell>
         <TableCell>{row.customer}</TableCell>
         <TableCell>{row.quantity}</TableCell>
-        <TableCell>{row.amount}</TableCell>
+        <TableCell>£ {row.amount}</TableCell>
         <TableCell style={{ float: "right" }}>
           <IconButton size="small" onClick={() => setOpen(!open)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -90,7 +90,7 @@ function Row(props) {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <p style={{fontWeight:"600",textAlign:"center",fontSize:"16px"}} >Details</p>
+              <p style={{ fontWeight: "600", textAlign: "center", fontSize: "16px" }} >Details</p>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
@@ -101,13 +101,13 @@ function Row(props) {
                     <TableCell align="right">Customer ID</TableCell>
                     <TableCell align="right">Order ID</TableCell>
                   </TableRow>
-                  
+
                 </TableHead>
                 <TableBody>
                   {row.history.map((historyRow) => (
                     <TableRow key={historyRow.id}>
                       <TableCell component="th" scope="row">
-                        {historyRow.price}
+                        £  {historyRow.price}
                       </TableCell>
                       <TableCell>{historyRow.category}</TableCell>
                       <TableCell>{historyRow.email}</TableCell>

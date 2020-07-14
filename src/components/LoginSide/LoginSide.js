@@ -113,10 +113,11 @@ const LoginSide = (props) => {
       password: password
     })
       .then(response => {
-        setLoad({
-          show: false
-        })
+        
         if (!response.data.token) {
+          setLoad({
+            show: false
+          })
           setSnack({
             show: true,
             message: "wrong credentials",
@@ -125,12 +126,17 @@ const LoginSide = (props) => {
         }
         else {
           cookies.set("Token", response.data.token, { path: "/", expires: 0 });
-          setSnack({
-            show: true,
-            message: "Logged In",
-            color: "green"
-          })
-          setRedir({ redirect: true });
+          setTimeout(() => {
+            setSnack({
+              show: true,
+              message: "Logged In",
+              color: "green"
+            })
+            setLoad({
+              show: false
+            })
+            setRedir({ redirect: true });
+          },2000) ;
         }
       })
       .catch(err => {

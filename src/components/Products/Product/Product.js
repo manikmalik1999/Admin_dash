@@ -38,16 +38,12 @@ export default function Product(props) {
                 {props.title[0]}
               </Avatar>
             }
-            // action={
-            //   <IconButton aria-label="settings">
-            //     <MoreVertIcon />
-            //   </IconButton>
-            // }
             title={props.title}
             subheader={"£ " + props.price}
           />
           <CardMedia
             className={classes.media}
+            style={{width:"100%"}}
             image={"https://limitless-lowlands-36879.herokuapp.com/" + props.image} 
             title={props.title}
           />
@@ -57,15 +53,6 @@ export default function Product(props) {
             </Typography>
           </CardContent>
           <CardActions disableSpacing>
-          {/* <Typography variant="body2" color="textSecondary" component="p">
-              {props.sellerId}
-            </Typography> */}
-            {/* <IconButton aria-label="add to favorites">
-              <FavoriteIcon />
-            </IconButton>
-            <IconButton aria-label="share">
-              <ShareIcon />
-            </IconButton> */}
           </CardActions>
         </Card>
       </Card>
