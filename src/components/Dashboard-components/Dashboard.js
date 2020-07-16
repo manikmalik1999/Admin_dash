@@ -386,7 +386,7 @@ const Dashboard = (props) => {
                 </Paper>
               </Grid>
               <Grid item xs={12}>
-                <Paper className={classes.paper}>
+                <Paper className={classes.paper}  style={{minHeight : "380px"}}>
                   <Orders orders={orders.orders} onlyOrders={false} />
                 </Paper>
               </Grid>
@@ -443,7 +443,7 @@ const Dashboard = (props) => {
           {/* All Orders */}
           <Route path="/dashboard/orders">
             <Grid item xs={12}>
-              <Paper className={classes.paper}>
+              <Paper className={classes.paper}  style={{minHeight : "580px"}}>
                 <Orders orders={orders.orders} onlyOrders={true} />
               </Paper>
             </Grid>

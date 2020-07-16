@@ -44,7 +44,7 @@ function Sellers(props) {
     // console.log(data);
     return (
         <div>
-            <p style={{ textAlign: "center" }}>Sellers</p>
+            <p style={{ textAlign: "center",fontSize:"24px" }}>Sellers</p>
             {data}
         </div>
     )

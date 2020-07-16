@@ -34,6 +34,7 @@ class IndividualProdReview extends Component {
             }
         })
             .then(response => {
+                window.location.reload() ;
                 // console.log(response);
             })
             .catch(err => {

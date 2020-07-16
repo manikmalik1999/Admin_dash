@@ -62,7 +62,7 @@ function SellerDetails(props) {
     }
     return (
         <div>
-            <p style={{ marginBottom: "18px",textAlign:"center" }}>Seller Details</p>
+            <p style={{ marginBottom: "18px",textAlign:"center",fontSize:"24px" }}>Seller Details</p>
             <Grid container spacing={4} alignItems="center" style={{marginBottom:"24px"}} >
                 <Grid item lg={2} />
                 <Grid item lg={3} >

@@ -12,7 +12,10 @@ import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-
+import TextField from '@material-ui/core/TextField';
+import { Grid } from "@material-ui/core";
+import { Dropdown } from 'semantic-ui-react';
+import Axios from "axios";
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
@@ -41,6 +44,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const usStyles = makeStyles((theme) => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
+}));
 
 
 const useRowStyles = makeStyles({
@@ -126,22 +140,80 @@ function Row(props) {
   );
 }
 
-
+const formatDate = (date) => {
+  let dd = date.slice(0, 2);
+  let yyyy = date.slice(9, 13);
+  let mm = date.slice(3, 6);
+  return (yyyy + "-" + mm + "-" + dd);
+}
 
 export default function Orders(props) {
-  // console.log(props.orders) ;
+  const [category, setCategory] = useState({
+    category: "all"
+  })
+  const [categories, setCategories] = useState({
+    cat: []
+  })
 
+  const handleChange = (event, { name, value }) => {
+    setCategory({
+      category: value
+    })
+  }
+  const handleDateFrom = (event) => {
+    console.log(event.target.value);
+    setFrom(event.target.value);
+  }
+  const handleDateTo = (event) => {
+    setTo(event.target.value);
+  }
+  let categoryOptions = [];
+  const all = {
+    key: "abcxyz",
+    value: "all",
+    text: "All"
+  };
+  if (categories.cat !== []) {
+    let others = categories.cat.map(category => {
+      return {
+        key: category._id,
+        value: category.category,
+        text: category.category
+      }
+    });
+    categoryOptions = [all, ...others]
+  }
+  useEffect(() => {
+    Axios.get("https://limitless-lowlands-36879.herokuapp.com/categories")
+      .then(response => {
+        setCategories({
+          cat: response.data.categories
+        })
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }, []);
+  const classs = usStyles();
   const classes = useStyles();
   const [orders, setOrders] = useState({
     orders: "Loading..."
   })
-  // console.log(lastDates) ;
+  const [loading, setLoading] = useState(true);
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+  today = yyyy + "-" + mm + "-" + dd;
+  const [from, setFrom] = useState("2020-01-01");
+  const [to, setTo] = useState(today);
   let ordersOnly = false;
   useEffect(() => {
     if (props.orders && orders.orders === "Loading...") {
       setOrders({
         orders: props.orders
-      })
+      });
+      setLoading(false);
     }
   }, [props.orders])
   let data = [createData("abcd", "Loading...", "Loading...", "Loading...", "Loading...", "Loading...", "Loading...", "Loading...", "Loading...", "Loading...", "Loading...", "Loading...")];
@@ -160,10 +232,71 @@ export default function Orders(props) {
       seeMore = true;
     }
   }
-  // console.log(data) ;
+
+  data = data.map((row) => {
+    if (category.category === "all" || (row.history[0].category.toLowerCase() === category.category.toLowerCase())) {
+      let fromDate = new Date(from);
+      let toDate = new Date(to);
+      let orderDate = formatDate(row.date);
+      orderDate = new Date(orderDate);
+      orderDate.setDate(orderDate.getDate() + 1);
+      if (fromDate <= orderDate && orderDate < toDate) {
+        return <Row key={row.id} row={row} />
+      }
+    }
+  }
+  )
+  let finalData = [];
+  for (let i = 0; i < data.length; ++i) {
+    if (data[i]) {
+      finalData.push(data[i]);
+    }
+  }
   return (
     <React.Fragment>
       <Title>Recent Orders</Title>
+      {!(seeMore && !ordersOnly) && !loading &&
+        <Grid container spacing={3} alignItems="center" justify="space-between" style={{ marginBottom: "12px" }}	>
+          <Grid item lg={5} >
+            <Dropdown
+              placeholder='Select Category'
+              fluid
+              search
+              selection
+              defaultValue={category.category}
+              onChange={handleChange}
+              options={categoryOptions}
+            />
+          </Grid>
+          <Grid item lg={2} />
+          <Grid item lg={5}>
+            <form className={classs.container} noValidate>
+              <TextField
+                id="from"
+                label="From"
+                type="date"
+                defaultValue={from}
+                className={classs.textField}
+                onChange={handleDateFrom}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              <TextField
+                id="to"
+                label="To"
+                type="date"
+                defaultValue={to}
+                onChange={handleDateTo}
+                className={classs.textField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </form>
+          </Grid>
+        </Grid>
+      }
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -176,9 +309,30 @@ export default function Orders(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((row) => (
-            <Row key={row.id} row={row} />
-          ))}
+          {finalData.length > 0 ?
+            finalData :
+            <TableRow>
+              <TableCell />
+              <TableCell />
+              <TableCell align="center">No Particulars Present Here</TableCell>
+              <TableCell />
+              <TableCell />
+              <TableCell />
+            </TableRow>
+          }
+          {/* {data.map((row) => {
+            if (category.category === "all" || (row.history[0].category.toLowerCase() === category.category.toLowerCase())) {
+              let fromDate = new Date(from) ;
+              let toDate = new Date(to) ;
+              let orderDate = formatDate(row.date) ;
+              orderDate = new Date(orderDate) ;
+              orderDate.setDate(orderDate.getDate() + 1) ;
+              if( fromDate <= orderDate && orderDate < toDate  ){
+                return <Row key={row.id} row={row} />
+              }
+            }
+          }
+          )} */}
         </TableBody>
       </Table>
       {seeMore && !ordersOnly &&
