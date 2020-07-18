@@ -333,7 +333,10 @@ const Dashboard = (props) => {
 
           <Tooltip title="Pending Products" TransitionComponent={Zoom} >
             <IconButton color="inherit">
-              <LLink to="/dashboard/products" >
+              <LLink to={{
+                pathname : "/dashboard/products",
+                toPending: true
+              }}>
                 {notification.notification ?
                   <Badge badgeContent={pending.pending} color="secondary">
                     <NotificationsIcon style={{ color: "white" }} onClick={removeNotificationHandler} />
@@ -399,7 +402,7 @@ const Dashboard = (props) => {
           </Grid>
 
           {/* pending-products */}
-          <Route path="/dashboard/products" exact component={PendingProducts} />
+          <Route path="/dashboard/products" exact component={PendingProducts} />  
 
           {/* All - Products
           <Route path="/dashboard/products" exact component={AllProducts} /> */}

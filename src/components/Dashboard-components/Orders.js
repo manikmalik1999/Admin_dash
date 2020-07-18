@@ -213,6 +213,7 @@ export default function Orders(props) {
       setOrders({
         orders: props.orders
       });
+      // console.log(props.orders) ;
       setLoading(false);
     }
   }, [props.orders])
@@ -237,10 +238,11 @@ export default function Orders(props) {
     if (category.category === "all" || (row.history[0].category.toLowerCase() === category.category.toLowerCase())) {
       let fromDate = new Date(from);
       let toDate = new Date(to);
+      toDate.setDate(toDate.getDate()+1) ;
       let orderDate = formatDate(row.date);
       orderDate = new Date(orderDate);
       orderDate.setDate(orderDate.getDate() + 1);
-      if (fromDate <= orderDate && orderDate < toDate) {
+      if ( fromDate <= orderDate && orderDate < toDate) {
         return <Row key={row.id} row={row} />
       }
     }

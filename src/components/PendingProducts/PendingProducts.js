@@ -307,7 +307,9 @@ class PendingProducts extends Component {
         rejectedProducts: [],
         activeItem: 'Approved Products',
         curr: "approved",
+        viaNotification:false,
         individualProductId: null,
+        productType : null ,
         loading: true,
         snack: {
             show: false,
@@ -422,8 +424,8 @@ class PendingProducts extends Component {
         }
     };
 
-    individualProductHandler = (id) => {
-        this.setState({ individualProductId: id });
+    individualProductHandler = (id,type) => {
+        this.setState({ individualProductId: id, productType : type });
     };
 
     menubarHandler = (event, { name, value }) => {
@@ -433,7 +435,13 @@ class PendingProducts extends Component {
 
     render() {
         //snackHandler
-        // console.log(this.state.approvedProducts ) ; 
+        if (this.props.location.toPending && this.state.curr !== "pending" && !this.state.viaNotification) {
+            this.setState({
+                activeItem: 'Pending Products',
+                curr: "pending",
+                viaNotification : true
+            })
+        }
         let products = null;
         if (!this.state.individualProductId) {
             if (this.state.curr === 'approved') {
@@ -446,7 +454,7 @@ class PendingProducts extends Component {
                         price={product.price}
                         image={product.image}
                         sellerId={product.sellerId}
-                        clicked={() => this.individualProductHandler(product._id)}
+                        clicked={() => this.individualProductHandler(product._id,"approved")}
                     />
                 });
             }
@@ -460,7 +468,7 @@ class PendingProducts extends Component {
                         price={product.price}
                         image={product.image}
                         sellerId={product.sellerId}
-                        clicked={() => this.individualProductHandler(product._id)}
+                        clicked={() => this.individualProductHandler(product._id,"pending")}
                     />
                 });
             }
@@ -473,13 +481,13 @@ class PendingProducts extends Component {
                         price={product.price}
                         image={product.image}
                         sellerId={product.sellerId}
-                        clicked={() => this.individualProductHandler(product._id)}
+                        clicked={() => this.individualProductHandler(product._id,"rejected")}
                     />
                 });
             }
         }
         else {
-            products = <PendingProductDetail id={this.state.individualProductId} />
+            products = <PendingProductDetail id={this.state.individualProductId} type={this.state.productType} />
         }
         // console.log(products);
         if (products.length === 0) {
