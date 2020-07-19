@@ -435,13 +435,13 @@ class PendingProducts extends Component {
 
     render() {
         //snackHandler
-        if (this.props.location.toPending && this.state.curr !== "pending" && !this.state.viaNotification) {
-            this.setState({
-                activeItem: 'Pending Products',
-                curr: "pending",
-                viaNotification : true
-            })
-        }
+        // if (this.props.location.toPending && this.state.curr !== "pending" && !this.state.viaNotification) {
+        //     this.setState({
+        //         activeItem: 'Pending Products',
+        //         curr: "pending",
+        //         viaNotification : true
+        //     })
+        // }
         let products = null;
         if (!this.state.individualProductId) {
             if (this.state.curr === 'approved') {
