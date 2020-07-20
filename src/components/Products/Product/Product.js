@@ -27,9 +27,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Product(props) {
   const classes2 = useStyles();
-  // console.log(props) ;
+
+  let outOfStock="";
+  if(props.pageFrom){
+    outOfStock = props.pageFrom;
+  }
   return (
-    <Link to={"/dashboard/pending-product/" + props.id}>
+    <Link to={"/dashboard/pending-product/" + props.id + outOfStock}>
       <Card style={{ width: '19rem'}} className={classes.Outer}>
         <Card className={classes.root} onClick = {props.clicked}>
           <CardHeader

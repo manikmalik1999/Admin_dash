@@ -15,7 +15,7 @@ import CategoryIcon from '@material-ui/icons/Category';
 import { Link } from 'react-router-dom';
 import Cookies from "universal-cookie";
 import Badge from '@material-ui/core/Badge';
-
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 
 const cookies = new Cookies();
 
@@ -92,6 +92,16 @@ export const mainListItems = (
           </ListItemIcon>
         </Tooltip>
         <ListItemText primary="Orders" />
+      </ListItem>
+    </Link>
+    <Link to="/dashboard/outOfStock">
+      <ListItem style={{ color: "white", fontWeight: "bold" }} button>
+        <Tooltip title="Orders" placement="right-start">
+          <ListItemIcon>
+            <RemoveCircleOutlineIcon style={{ color: "white" }} />
+          </ListItemIcon>
+        </Tooltip>
+        <ListItemText primary="Out Of Stock" />
       </ListItem>
     </Link>
   </div>

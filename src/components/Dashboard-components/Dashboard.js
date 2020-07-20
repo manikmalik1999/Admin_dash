@@ -42,6 +42,7 @@ import { Snackbar, SnackbarContent } from "@material-ui/core";
 import Sellers from "../Sellers/Sellers";
 import IndividualProdReview from '../Dashboard-components/Reviews/IndividualProdReview/IndividualProdReview';
 import SellerDetails from "../Sellers/Seller/SellerDetails";
+import OutOfStock from '../OutofStockProducts/OutofStockProduct';
 // import AllProducts from '../AllProducts/AllProducts';
 const cookies = new Cookies();
 
@@ -410,6 +411,7 @@ const Dashboard = (props) => {
 
           {/* Pending Product Details */}
           <Route path="/dashboard/pending-product/:id" exact component={PendingProductDetail} />
+          <Route path="/dashboard/pending-product/:id/:outOfStock" exact component={PendingProductDetail} />
 
           {/* Seller Details */}
           <Route path="/dashboard/sellers/:id/:name/:email" component={SellerDetails} />
@@ -454,6 +456,8 @@ const Dashboard = (props) => {
           {/* Pending Product Details */}
           <Route path="/dashboard/reviews/:id" exact component={IndividualProdReview}>
           </Route>
+
+          <Route path="/dashboard/outOfStock" exact component={OutOfStock}></Route>
         </Container>
       </main>
     </div>

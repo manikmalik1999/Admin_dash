@@ -22,6 +22,7 @@ class PendingProductDetail extends Component {
         seller: {},
         loading: true,
         redirectToPendingProducts: false,
+        redirectToOutOfStockProducts:false,
         value: "back"
     }
 
@@ -49,8 +50,6 @@ class PendingProductDetail extends Component {
             }
         })
             .then(res => {
-                // console.log("true");
-                // console.log(res);
                 this.setState({ redirectToPendingProducts: true, value: true });
             })
             .catch(err => {
@@ -65,10 +64,22 @@ class PendingProductDetail extends Component {
             }
         })
             .then(res => {
-                // console.log("false");
-                // console.log(this.state.product._id);
-                // console.log(res);
                 this.setState({ redirectToPendingProducts: true, value: false });
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+    deleteHandler = () => {
+        let token = cookies.get("Token");
+        axios.delete("https://limitless-lowlands-36879.herokuapp.com/products/" + this.state.product._id, {
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        })
+            .then(res => {
+                // console.log(res);
+                this.setState({ redirectToOutOfStockProducts: true, value: false });
             })
             .catch(err => {
                 console.log(err);
@@ -77,11 +88,22 @@ class PendingProductDetail extends Component {
     redirectHandler = () => {
         this.setState({ redirectToPendingProducts: true, value: "back" });
     }
+
+    redirectHandler2 = () => {
+        this.setState({redirectToOutOfStockProducts : true,value:"back2"});
+    }
+
     render() {
         let redir = null;
         if (this.state.redirectToPendingProducts) {
             redir = <Redirect to={{
                 pathname: "/dashboard/products",
+                state: { value: this.state.value }
+            }} />
+        }
+        else if(this.state.redirectToOutOfStockProducts){
+            redir = <Redirect to={{
+                pathname: "/dashboard/outOfStock",
                 state: { value: this.state.value }
             }} />
         }
@@ -94,6 +116,32 @@ class PendingProductDetail extends Component {
                 </Dimmer>
             )
         }
+        let redirCode;
+        if(this.props.match.params.outOfStock){
+            redirCode = (<div style={{ padding: "12px", paddingLeft: "24px", margin: "auto", cursor: "pointer" }} onClick={this.redirectHandler2}>
+                            <IconExampleDisabled style={{ margin: "auto", verticalAlign: "center" }} />
+                            <p style={{ fontSize: "16px", display: "inline-block", margin: "auto", marginLeft: "12px", verticalAlign: "center" }}>Back to Out Of Stock Products</p>
+                        </div>)
+        }
+        else{
+            redirCode = (<div style={{ padding: "12px", paddingLeft: "24px", margin: "auto", cursor: "pointer" }} onClick={this.redirectHandler}>
+                            <IconExampleDisabled style={{ margin: "auto", verticalAlign: "center" }} />
+                            <p style={{ fontSize: "16px", display: "inline-block", margin: "auto", marginLeft: "12px", verticalAlign: "center" }}>Back to Products</p>
+                        </div>)
+        }
+
+        let buttonCode;
+        if(!this.props.match.params.outOfStock){
+            buttonCode = (<Grid item xs={12} lg={5}>
+                            <Button variant="success" onClick={this.acceptHandler} className={classes.Btn}>Accept Request</Button>
+                            <Button variant="danger" onClick={this.denyHandler} className={classes.Btn}>Deny Request</Button>
+                          </Grid>);
+        }
+        else{
+            buttonCode = (<Grid item xs={12} lg={5}>
+                <Button variant="danger" onClick={this.deleteHandler} className={classes.Btn}>Delete Product</Button>
+              </Grid>);
+        }
         return (
             <Aux>
                 {redir}
@@ -102,10 +150,7 @@ class PendingProductDetail extends Component {
                         {/* <Paper className={classes.paper}> */}
                         {/* <Row > */}
                         <Grid item xs={12} lg={12} style={{ borderBottom: "2px solid #efefef", maxHeight: "100px" }}>
-                            <div style={{ padding: "12px", paddingLeft: "24px", margin: "auto", cursor: "pointer" }} onClick={this.redirectHandler}>
-                                <IconExampleDisabled style={{ margin: "auto", verticalAlign: "center" }} />
-                                <p style={{ fontSize: "16px", display: "inline-block", margin: "auto", marginLeft: "12px", verticalAlign: "center" }}>Back to Products</p>
-                            </div>
+                            {redirCode}
                         </Grid>
                         <Grid container item spacing={2} xs={12} lg={12} style={{borderBottom:"2px solid #efefef"}}>
                             <Grid item lg={4}>
@@ -133,10 +178,7 @@ class PendingProductDetail extends Component {
                                     <p className={classescss.Description}>Seller Id : {this.state.seller._id}</p>
                                     <p className={classescss.Description}>{this.state.seller.name}</p>
                                 </Grid>
-                                <Grid item xs={12} lg={5}>
-                                    <Button vaiant="success" onClick={this.acceptHandler} className={classes.Btn}>Accept Request</Button>
-                                    <Button variant="danger" onClick={this.denyHandler} className={classes.Btn}>Deny Request</Button>
-                                </Grid>
+                                {buttonCode}
                             </Grid>
                         </Grid>
                     </Grid>
