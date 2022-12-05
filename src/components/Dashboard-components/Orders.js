@@ -83,7 +83,8 @@ function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
-
+  console.log(props);
+  console.log("--->here");
   return (
     <React.Fragment>
       <StyledTableRow className={classes.root}>
@@ -142,12 +143,14 @@ function Row(props) {
 
 const formatDate = (date) => {
   let dd = date.slice(0, 2);
-  let yyyy = date.slice(9, 13);
+  let yyyy = date.slice(8, 11);
   let mm = date.slice(3, 6);
   return (yyyy + "-" + mm + "-" + dd);
 }
 
 export default function Orders(props) {
+  console.log(props);
+  console.log("props");
   const [category, setCategory] = useState({
     category: "all"
   })
@@ -184,7 +187,7 @@ export default function Orders(props) {
     categoryOptions = [all, ...others]
   }
   useEffect(() => {
-    Axios.get("https://limitless-lowlands-36879.herokuapp.com/categories")
+    Axios.get("http://localhost:5000/categories")
       .then(response => {
         setCategories({
           cat: response.data.categories
@@ -220,10 +223,16 @@ export default function Orders(props) {
   let data = [createData("abcd", "Loading...", "Loading...", "Loading...", "Loading...", "Loading...", "Loading...", "Loading...", "Loading...", "Loading...", "Loading...", "Loading...")];
   let seeMore = false;
   if (orders.orders !== "Loading...") {
+ 
+    // data = orders.orders.map((order, index) => {
+    //   return createData(index, setDate(order.date.split("T")[0]), order.product.name, order.userId.name, order.product.category, order.quantity, order.product.price, order.quantity * order.product.price,
+    //     order.userId.email, order.product._id, order.userId._id, order._id)
+    // })
     data = orders.orders.map((order, index) => {
-      return createData(index, setDate(order.date.split("T")[0]), order.product.name, order.userId.name, order.product.category, order.quantity, order.product.price, order.quantity * order.product.price,
+      return createData(index, order.date.split("T")[0], order.product.name, order.userId.name, order.product.category, order.quantity, order.product.price, order.quantity * order.product.price,
         order.userId.email, order.product._id, order.userId._id, order._id)
     })
+    console.log("data ",data);
     data.reverse();
     if (props.onlyOrders) {
       ordersOnly = props.onlyOrders
@@ -233,27 +242,37 @@ export default function Orders(props) {
       seeMore = true;
     }
   }
-
+ var pt = 0;
   data = data.map((row) => {
+    console.log("counter",pt);
+    pt++;
     if (category.category === "all" || (row.history[0].category.toLowerCase() === category.category.toLowerCase())) {
+      console.log("entering if");
       let fromDate = new Date(from);
       let toDate = new Date(to);
       toDate.setDate(toDate.getDate()+1) ;
-      let orderDate = formatDate(row.date);
-      orderDate = new Date(orderDate);
+      console.log("orderDate before ", row.date);
+      let orderDate = new Date(row.date);
+      console.log("orderDate after ", orderDate);
       orderDate.setDate(orderDate.getDate() + 1);
-      if ( fromDate <= orderDate && orderDate < toDate) {
+      if ( fromDate <= orderDate && orderDate <= toDate) {
+        console.log("entering return if", row.product);
         return <Row key={row.id} row={row} />
       }
     }
   }
   )
+  
+  console.log("data ",data);
   let finalData = [];
+ 
   for (let i = 0; i < data.length; ++i) {
     if (data[i]) {
       finalData.push(data[i]);
     }
+
   }
+
   return (
     <React.Fragment>
       <Title>Recent Orders</Title>

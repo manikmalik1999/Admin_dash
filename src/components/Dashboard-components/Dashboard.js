@@ -51,7 +51,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" style={{ margin: "auto 24px", position: "absolute", right: "12px", bottom: "6px" }}>
       {'Copyright © '}
-      <Link color="inherit" href="https://limitless-lowlands-36879.herokuapp.com/">
+      <Link color="inherit" href="http://localhost:5000/">
         MECOM
       </Link>{' '}
       {new Date().getFullYear()}
@@ -158,6 +158,7 @@ const Dashboard = (props) => {
   const [orders, setOrders] = useState({
     orders: null
   })
+  //  const [orders, setOrders] = useState([])
   const [sellers, setSellers] = useState({
     sellers: null
   })
@@ -238,24 +239,25 @@ const Dashboard = (props) => {
   //data from orders
   useEffect(() => {
     // console.log(token) ;
-    Axios.get("https://limitless-lowlands-36879.herokuapp.com/orders", {
+    Axios.get("http://localhost:5000/orders", {
       headers: {
         "Authorization": "Bearer " + token
       }
     })
       .then(response => {
-        // console.log(response) ;
+        console.log("orders", response.data.orders) ;
         setOrders({
           orders: response.data.orders
         })
-        // setHttp({
+
+        console.log(orders.orders);
         //   set: true
         // })
       })
       .catch(err => {
         console.log(err);
       });
-    Axios.get("https://limitless-lowlands-36879.herokuapp.com/products", {
+    Axios.get("http://localhost:5000/products", {
       headers: {
         "Authorization": "Bearer " + token
       }
@@ -275,7 +277,7 @@ const Dashboard = (props) => {
       .catch(err => {
         console.log(err);
       });
-    Axios.get("https://limitless-lowlands-36879.herokuapp.com/sellers", {
+    Axios.get("http://localhost:5000/sellers", {
       headers: {
         "Authorization": "Bearer " + token
       }

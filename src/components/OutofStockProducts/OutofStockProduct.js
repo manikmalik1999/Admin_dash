@@ -68,7 +68,7 @@ class PendingProducts extends Component {
 
     componentDidMount() {
         axios
-            .get('https://limitless-lowlands-36879.herokuapp.com/products')
+            .get('http://localhost:5000/products')
             .then(response => {
                 const products = response.data.products;
                 // console.log(products);

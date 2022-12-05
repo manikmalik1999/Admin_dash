@@ -67,7 +67,7 @@ export default function Category(props) {
         {/* <Button size="small" color="success">
             Products
           </Button> */}
-        <Link to={"/dashboard/categories/" + props.category}>
+        <Link to={"/dashboard/categories/" + props.category.toLowerCase()}>
           <StyledButton2 style={{ width: "160px", marginLeft: "52px" }}>Products</StyledButton2>
         </Link>
         {/* <StyledButton2>PendingProducts</StyledButton2> */}

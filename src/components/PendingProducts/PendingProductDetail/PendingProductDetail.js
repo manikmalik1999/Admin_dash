@@ -28,7 +28,7 @@ class PendingProductDetail extends Component {
 
     componentDidMount() {
         if (this.props.match.params.id) {
-            axios.get('https://limitless-lowlands-36879.herokuapp.com/products/' + this.props.match.params.id)
+            axios.get('http://localhost:5000/products/' + this.props.match.params.id)
                 .then(response => {
                     // console.log(response);
                     this.setState({
@@ -44,7 +44,7 @@ class PendingProductDetail extends Component {
     };
     acceptHandler = () => {
         let token = cookies.get("Token");
-        axios.get("https://limitless-lowlands-36879.herokuapp.com/admin/approve/true/" + this.state.product._id, {
+        axios.get("http://localhost:5000/admin/approve/true/" + this.state.product._id, {
             headers: {
                 "Authorization": "Bearer " + token
             }
@@ -58,7 +58,7 @@ class PendingProductDetail extends Component {
     }
     denyHandler = () => {
         let token = cookies.get("Token");
-        axios.get("https://limitless-lowlands-36879.herokuapp.com/admin/approve/false/" + this.state.product._id, {
+        axios.get("http://localhost:5000/admin/approve/false/" + this.state.product._id, {
             headers: {
                 "Authorization": "Bearer " + token
             }
@@ -72,7 +72,7 @@ class PendingProductDetail extends Component {
     }
     deleteHandler = () => {
         let token = cookies.get("Token");
-        axios.delete("https://limitless-lowlands-36879.herokuapp.com/products/" + this.state.product._id, {
+        axios.delete("http://localhost:5000/products/" + this.state.product._id, {
             headers: {
                 "Authorization": "Bearer " + token
             }
@@ -154,13 +154,13 @@ class PendingProductDetail extends Component {
                         </Grid>
                         <Grid container item spacing={2} xs={12} lg={12} style={{borderBottom:"2px solid #efefef"}}>
                             <Grid item lg={4}>
-                                <img src={"https://limitless-lowlands-36879.herokuapp.com/" + this.state.product.image} style={{ width: "100%", margin: "auto" }} alt="" className={classes.Image} />
+                                <img src={"http://localhost:5000/" + this.state.product.image} style={{ width: "100%", margin: "auto" }} alt="" className={classes.Image} />
                             </Grid>
                             <Grid item lg={4}>
-                                <img src={"https://limitless-lowlands-36879.herokuapp.com/" + this.state.product.image2} style={{ width: "100%", margin: "auto" }} alt="" className={classes.Image} />
+                                <img src={"http://localhost:5000/" + this.state.product.image2} style={{ width: "100%", margin: "auto" }} alt="" className={classes.Image} />
                             </Grid>
                             <Grid item lg={4}>
-                                <img src={"https://limitless-lowlands-36879.herokuapp.com/" + this.state.product.image3} style={{ width: "100%", margin: "auto" }} alt="" className={classes.Image} />
+                                <img src={"http://localhost:5000/" + this.state.product.image3} style={{ width: "100%", margin: "auto" }} alt="" className={classes.Image} />
                             </Grid>
                         </Grid>
                         {/* <Grid item xs={1} sm={1} lg={1} className={classes.VerLine} /> */}

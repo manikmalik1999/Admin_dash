@@ -44,7 +44,7 @@
 //         let categoryFilter;
 //         if (this.props.sellerId) {
 //             axios
-//                 .get('https://limitless-lowlands-36879.herokuapp.com/products')
+//                 .get('http://localhost:5000/products')
 //                 .then(response => {
 //                     const products = response.data.products;
 //                     const pendingProducts = products.filter(i => {
@@ -74,7 +74,7 @@
 //         }
 //         else if (this.props.match.params.category) {
 //             axios
-//                 .get('https://limitless-lowlands-36879.herokuapp.com/products')
+//                 .get('http://localhost:5000/products')
 //                 .then(response => {
 //                     const products = response.data.products;
 //                     const pendingProducts = products.filter(i => {
@@ -104,7 +104,7 @@
 //         }
 //         else {
 //             axios
-//                 .get('https://limitless-lowlands-36879.herokuapp.com/products')
+//                 .get('http://localhost:5000/products')
 //                 .then(response => {
 //                     const products = response.data.products;
 //                     const pendingProducts = products.filter(i => {
@@ -333,7 +333,7 @@ class PendingProducts extends Component {
         let categoryFilter;
         if (this.props.sellerId) {
             axios
-                .get('https://limitless-lowlands-36879.herokuapp.com/products')
+                .get('http://localhost:5000/products')
                 .then(response => {
                     const products = response.data.products;
                     const pendingProducts = products.filter(i => {
@@ -364,10 +364,11 @@ class PendingProducts extends Component {
         else if (this.props.match.params.category) {
             console.log(this.props.match.params.category);
             axios
-                .get('https://limitless-lowlands-36879.herokuapp.com/products')
+                .get('http://localhost:5000/products')
                 .then(response => {
                     const products = response.data.products;
                     const pendingProducts = products.filter(i => {
+                        console.log(i.category.toLowerCase());
                         return i.approved === "pending" && i.category.toLowerCase() === this.props.match.params.category;
                     });
                     const approvedProducts = products.filter(i => {
@@ -394,7 +395,7 @@ class PendingProducts extends Component {
         }
         else {
             axios
-                .get('https://limitless-lowlands-36879.herokuapp.com/products')
+                .get('http://localhost:5000/products')
                 .then(response => {
                     const products = response.data.products;
                     const pendingProducts = products.filter(i => {
